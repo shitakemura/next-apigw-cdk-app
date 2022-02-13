@@ -22,6 +22,16 @@ Object {
   "Resources": Object {
     "TodoHttpApi072A8953": Object {
       "Properties": Object {
+        "CorsConfiguration": Object {
+          "AllowHeaders": Array [
+            "Content-Type",
+            "Authorization",
+          ],
+          "AllowMethods": Array [
+            "OPTIONS",
+            "GET",
+          ],
+        },
         "Name": "TodoHttpApi",
         "ProtocolType": "HTTP",
       },

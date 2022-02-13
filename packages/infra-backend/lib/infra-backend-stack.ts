@@ -34,7 +34,12 @@ export class InfraBackendStack extends cdk.Stack {
     todoTable.grantReadData(listTodosLambda);
 
     // Http Api
-    const todoHttpApi = new apiGw.HttpApi(this, "TodoHttpApi", {});
+    const todoHttpApi = new apiGw.HttpApi(this, "TodoHttpApi", {
+      corsPreflight: {
+        allowHeaders: ["Content-Type", "Authorization"],
+        allowMethods: [apiGw.CorsHttpMethod.OPTIONS, apiGw.CorsHttpMethod.GET],
+      },
+    });
 
     // Http Lambda Integration
     const listTodosIntegration = new apiGwIntegrations.HttpLambdaIntegration(
