@@ -16,6 +16,7 @@
     "infra-backend:test": "yarn workspace infra-backend test",
     "infra-backend:update-snapshot": "yarn workspace infra-backend test -- -u",
     "infra-backend:synth": "yarn workspace infra-backend synth",
+    "infra-backend:diff": "yarn workspace infra-backend diff",
     "infra-backend:deploy": "yarn workspace infra-backend deploy"
   }
 }

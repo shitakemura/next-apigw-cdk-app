@@ -5,7 +5,7 @@ import { InfraBackendStack } from "../lib/infra-backend-stack";
 test("snapshot test", () => {
   const app = new cdk.App();
   const stack = new InfraBackendStack(app, "InfraBackendTestStack");
-  const template = Template.fromStack(stack).toJSON();
+  const template = Template.fromStack(stack);
 
-  expect(template).toMatchSnapshot();
+  expect(template.toJSON()).toMatchSnapshot();
 });

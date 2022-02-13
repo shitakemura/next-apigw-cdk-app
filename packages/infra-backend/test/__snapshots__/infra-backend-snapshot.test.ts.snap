@@ -2,6 +2,16 @@
 
 exports[`snapshot test 1`] = `
 Object {
+  "Outputs": Object {
+    "TodoHttpApiEndpoint": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "TodoHttpApi072A8953",
+          "ApiEndpoint",
+        ],
+      },
+    },
+  },
   "Parameters": Object {
     "BootstrapVersion": Object {
       "Default": "/cdk-bootstrap/hnb659fds/version",
@@ -10,10 +20,105 @@ Object {
     },
   },
   "Resources": Object {
+    "TodoHttpApi072A8953": Object {
+      "Properties": Object {
+        "Name": "TodoHttpApi",
+        "ProtocolType": "HTTP",
+      },
+      "Type": "AWS::ApiGatewayV2::Api",
+    },
+    "TodoHttpApiDefaultStageEE725B46": Object {
+      "Properties": Object {
+        "ApiId": Object {
+          "Ref": "TodoHttpApi072A8953",
+        },
+        "AutoDeploy": true,
+        "StageName": "$default",
+      },
+      "Type": "AWS::ApiGatewayV2::Stage",
+    },
+    "TodoHttpApiGETtodosE8223B42": Object {
+      "Properties": Object {
+        "ApiId": Object {
+          "Ref": "TodoHttpApi072A8953",
+        },
+        "AuthorizationType": "NONE",
+        "RouteKey": "GET /todos",
+        "Target": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "integrations/",
+              Object {
+                "Ref": "TodoHttpApiGETtodoslistTodosIntegration6E28E076",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "TodoHttpApiGETtodoslistTodosIntegration6E28E076": Object {
+      "Properties": Object {
+        "ApiId": Object {
+          "Ref": "TodoHttpApi072A8953",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": Object {
+          "Fn::GetAtt": Array [
+            "listTodosHandlerA268EC0E",
+            "Arn",
+          ],
+        },
+        "PayloadFormatVersion": "2.0",
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "TodoHttpApiGETtodoslistTodosIntegrationPermission87920617": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "listTodosHandlerA268EC0E",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "TodoHttpApi072A8953",
+              },
+              "/*/*/todos",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
     "TodoTable585F1D6B": Object {
       "DeletionPolicy": "Delete",
       "Properties": Object {
         "AttributeDefinitions": Array [
+          Object {
+            "AttributeName": "userId",
+            "AttributeType": "S",
+          },
           Object {
             "AttributeName": "id",
             "AttributeType": "S",
@@ -22,13 +127,118 @@ Object {
         "BillingMode": "PAY_PER_REQUEST",
         "KeySchema": Array [
           Object {
-            "AttributeName": "id",
+            "AttributeName": "userId",
             "KeyType": "HASH",
+          },
+          Object {
+            "AttributeName": "id",
+            "KeyType": "RANGE",
           },
         ],
       },
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Delete",
+    },
+    "listTodosHandlerA268EC0E": Object {
+      "DependsOn": Array [
+        "listTodosHandlerServiceRoleDefaultPolicy196AA5E5",
+        "listTodosHandlerServiceRole6D2B3EBF",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "e75165e07f62c763e1b468f0315881ad2262f5316690a3f193ccf57f2e9ed71a.zip",
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "TODO_TABLE": Object {
+              "Ref": "TodoTable585F1D6B",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "listTodosHandlerServiceRole6D2B3EBF",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "listTodosHandlerServiceRole6D2B3EBF": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "listTodosHandlerServiceRoleDefaultPolicy196AA5E5": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "TodoTable585F1D6B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "listTodosHandlerServiceRoleDefaultPolicy196AA5E5",
+        "Roles": Array [
+          Object {
+            "Ref": "listTodosHandlerServiceRole6D2B3EBF",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
   },
   "Rules": Object {
