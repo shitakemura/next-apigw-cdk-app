@@ -1,0 +1,15 @@
+{
+  "name": "next-apigw-todo-app",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "infra-backend:synth": "yarn workspace infra-backend synth",
+    "infra-backend:deploy": "yarn workspace infra-backend deploy"
+  }
+}
