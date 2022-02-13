@@ -1,6 +1,6 @@
 import { DynamoDB } from "aws-sdk";
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
-import { Todo } from "../../shared/models/Todo";
+import { Todo } from "../../shared/models";
 
 const docClient = new DynamoDB.DocumentClient();
 
