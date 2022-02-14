@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`infra-backend snapshot test 1`] = `
+exports[`backend-api snapshot test 1`] = `
 Object {
   "Outputs": Object {
     "TodoHttpApiEndpoint": Object {

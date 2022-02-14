@@ -4,7 +4,7 @@
   "license": "UNLICENSED",
   "private": true,
   "bin": {
-    "infra-backend": "bin/infra-backend.js"
+    "infra-backend": "bin/index.js"
   },
   "scripts": {
     "build": "tsc",

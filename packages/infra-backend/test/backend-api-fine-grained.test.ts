@@ -1,10 +1,10 @@
 import * as cdk from "aws-cdk-lib";
 import { Template } from "aws-cdk-lib/assertions";
-import { InfraBackendStack } from "../lib/infra-backend-stack";
+import { BackendApiStack } from "../lib/backend-api-stack";
 
-test("infra-backend fine grained assertions test", () => {
+test("backend-api fine grained assertions test", () => {
   const app = new cdk.App();
-  const stack = new InfraBackendStack(app, "InfraBackendFineGraindTestStack");
+  const stack = new BackendApiStack(app, "BackendApiFineGraindTestStack");
   const template = Template.fromStack(stack);
 
   // Http API Gateway

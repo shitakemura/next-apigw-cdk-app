@@ -6,7 +6,7 @@ import * as apiGwIntegrations from "@aws-cdk/aws-apigatewayv2-integrations-alpha
 import { Construct } from "constructs";
 import * as path from "path";
 
-export class InfraBackendStack extends cdk.Stack {
+export class BackendApiStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
