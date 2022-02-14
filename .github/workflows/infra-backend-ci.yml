@@ -20,4 +20,4 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Unit Test
-        run: yarn infra-backend:test
+        run: yarn backend:test
