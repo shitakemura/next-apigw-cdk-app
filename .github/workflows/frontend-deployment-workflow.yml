@@ -1,10 +1,11 @@
-name: backend-api-workflow
+name: frontend-deployment-workflow
 on:
   push:
     branches:
       - master
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,6 +16,8 @@ jobs:
           node-version: "14.x"
           cache: "yarn"
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozon-lockfile
       - name: Unit Test
-        run: yarn backend-api:test
+        run: yarn frontend-deployment:test
+      - name: Build & export
+        run: yarn frontend:build
