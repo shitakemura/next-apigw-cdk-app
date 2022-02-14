@@ -1,4 +1,4 @@
-name: infra-backend-ci
+name: backend-api-workflow
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ on:
     branches:
       - master
 jobs:
-  build:
+  aws_cdk:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,4 +20,4 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Unit Test
-        run: yarn backend:test
+        run: yarn backend-api:test

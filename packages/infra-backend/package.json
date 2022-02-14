@@ -13,7 +13,10 @@
     "cdk": "cdk",
     "synth": "cdk synth",
     "diff": "cdk diff",
-    "deploy": "cdk deploy --all"
+    "backend-api:test": "jest \"backend-api.*\\.test\\.ts\"",
+    "frontend-deployment:test": "jest \"frontend-deployment.*\\.test\\.ts\"",
+    "backend-api:deploy": "cdk deploy BackendApiStack",
+    "frontend-deployment:deploy": "cdk deploy FrontendDeploymentStack"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",
