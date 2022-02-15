@@ -2,10 +2,13 @@ import * as cdk from "aws-cdk-lib";
 import * as lambda_nodejs from "aws-cdk-lib/aws-lambda-nodejs";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as apigatewayv2_alpha from "@aws-cdk/aws-apigatewayv2-alpha";
+import * as apigatewayv2_authorizers_alpha from "@aws-cdk/aws-apigatewayv2-authorizers-alpha";
 import * as apigatewayv2_integrations_alpha from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
 import { Construct } from "constructs";
 import * as path from "path";
+import * as dotenv from "dotenv";
 
+dotenv.config();
 export class BackendApiStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -33,7 +36,7 @@ export class BackendApiStack extends cdk.Stack {
 
     todoTable.grantReadData(listTodosLambda);
 
-    // Http Api
+    // Http Api Gateway
     const todoHttpApi = new apigatewayv2_alpha.HttpApi(this, "TodoHttpApi", {
       corsPreflight: {
         allowHeaders: ["Content-Type", "Authorization"],
@@ -48,6 +51,16 @@ export class BackendApiStack extends cdk.Stack {
       },
     });
 
+    // Jwt Authorizer
+    const issuer = `${process.env.AUTH0_DOMAIN}/`;
+    const authorizer = new apigatewayv2_authorizers_alpha.HttpJwtAuthorizer(
+      "TodoJwtAuthorizer",
+      issuer,
+      {
+        jwtAudience: [process.env.AUTH0_API_AUDIENCE ?? ""],
+      }
+    );
+
     // Http Lambda Integration
     const listTodosIntegration =
       new apigatewayv2_integrations_alpha.HttpLambdaIntegration(
@@ -59,6 +72,7 @@ export class BackendApiStack extends cdk.Stack {
     todoHttpApi.addRoutes({
       path: "/todos",
       methods: [apigatewayv2_alpha.HttpMethod.GET],
+      authorizer,
       integration: listTodosIntegration,
     });
 

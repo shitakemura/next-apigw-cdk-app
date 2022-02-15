@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: "14.x"
           cache: "yarn"
+      - name: Create .env file
+        run: echo "${{ secrets.BACKEND_ENV_PROD }}" > ./packages/infra-backend/.env
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Unit Test
