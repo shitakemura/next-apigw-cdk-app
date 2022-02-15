@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: "14.x"
           cache: "yarn"
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_PROD }}" > ./packages/frontend/.env
       - name: Install dependencies
         run: yarn install --frozon-lockfile
       - name: Build & export frontend
