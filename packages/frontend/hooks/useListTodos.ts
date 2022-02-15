@@ -4,7 +4,7 @@ import { Todo } from "../../shared/models";
 export const useListTodos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const listTodos = async () => {
@@ -12,16 +12,26 @@ export const useListTodos = () => {
 
       setLoading(true);
       try {
-        const data = await fetch(url, {
+        const response = await fetch(url, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
-        const todos = await data.json();
-        setTodos(todos);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+
+        setTodos(data as Todo[]);
       } catch (error: any) {
-        setError(error);
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("listTodos API error");
+        }
       } finally {
         setLoading(false);
       }
