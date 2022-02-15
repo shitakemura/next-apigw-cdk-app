@@ -19,10 +19,10 @@ jobs:
           cache: "yarn"
       - name: Install dependencies
         run: yarn install --frozon-lockfile
+      - name: Build & export frontend
+        run: yarn frontend:build
       - name: Unit Test
         run: yarn frontend-deployment:test
-      - name: Build & export
-        run: yarn frontend:build
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

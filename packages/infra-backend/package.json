@@ -15,8 +15,8 @@
     "diff": "cdk diff",
     "backend-api:test": "jest \"backend-api.*\\.test\\.ts\"",
     "frontend-deployment:test": "jest \"frontend-deployment.*\\.test\\.ts\"",
-    "backend-api:deploy": "cdk deploy BackendApiStack",
-    "frontend-deployment:deploy": "cdk deploy FrontendDeploymentStack"
+    "backend-api:deploy": "cdk deploy BackendApiStack --require-approval never",
+    "frontend-deployment:deploy": "cdk deploy FrontendDeploymentStack --require-approval never"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",
