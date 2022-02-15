@@ -31,6 +31,10 @@ Object {
             "OPTIONS",
             "GET",
           ],
+          "AllowOrigins": Array [
+            "http://localhost:3000",
+            "https://d1ga29t5ymw1db.cloudfront.net",
+          ],
         },
         "Name": "TodoHttpApi",
         "ProtocolType": "HTTP",

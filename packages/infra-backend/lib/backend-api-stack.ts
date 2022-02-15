@@ -38,6 +38,10 @@ export class BackendApiStack extends cdk.Stack {
       corsPreflight: {
         allowHeaders: ["Content-Type", "Authorization"],
         allowMethods: [apiGw.CorsHttpMethod.OPTIONS, apiGw.CorsHttpMethod.GET],
+        allowOrigins: [
+          "http://localhost:3000",
+          "https://d1ga29t5ymw1db.cloudfront.net",
+        ],
       },
     });
 
