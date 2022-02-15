@@ -1,8 +1,8 @@
 import * as cdk from "aws-cdk-lib";
-import * as lambdaNodejs from "aws-cdk-lib/aws-lambda-nodejs";
-import * as dynamoDb from "aws-cdk-lib/aws-dynamodb";
-import * as apiGw from "@aws-cdk/aws-apigatewayv2-alpha";
-import * as apiGwIntegrations from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
+import * as lambda_nodejs from "aws-cdk-lib/aws-lambda-nodejs";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as apigatewayv2_alpha from "@aws-cdk/aws-apigatewayv2-alpha";
+import * as apigatewayv2_integrations_alpha from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
 import { Construct } from "constructs";
 import * as path from "path";
 
@@ -11,15 +11,15 @@ export class BackendApiStack extends cdk.Stack {
     super(scope, id, props);
 
     // DynamoDB
-    const todoTable = new dynamoDb.Table(this, "TodoTable", {
-      billingMode: dynamoDb.BillingMode.PAY_PER_REQUEST,
+    const todoTable = new dynamodb.Table(this, "TodoTable", {
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
-      partitionKey: { name: "userId", type: dynamoDb.AttributeType.STRING },
-      sortKey: { name: "id", type: dynamoDb.AttributeType.STRING },
+      partitionKey: { name: "userId", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "id", type: dynamodb.AttributeType.STRING },
     });
 
     // Lambda
-    const listTodosLambda = new lambdaNodejs.NodejsFunction(
+    const listTodosLambda = new lambda_nodejs.NodejsFunction(
       this,
       "listTodosHandler",
       {
@@ -34,10 +34,13 @@ export class BackendApiStack extends cdk.Stack {
     todoTable.grantReadData(listTodosLambda);
 
     // Http Api
-    const todoHttpApi = new apiGw.HttpApi(this, "TodoHttpApi", {
+    const todoHttpApi = new apigatewayv2_alpha.HttpApi(this, "TodoHttpApi", {
       corsPreflight: {
         allowHeaders: ["Content-Type", "Authorization"],
-        allowMethods: [apiGw.CorsHttpMethod.OPTIONS, apiGw.CorsHttpMethod.GET],
+        allowMethods: [
+          apigatewayv2_alpha.CorsHttpMethod.OPTIONS,
+          apigatewayv2_alpha.CorsHttpMethod.GET,
+        ],
         allowOrigins: [
           "http://localhost:3000",
           "https://d1ga29t5ymw1db.cloudfront.net",
@@ -46,15 +49,16 @@ export class BackendApiStack extends cdk.Stack {
     });
 
     // Http Lambda Integration
-    const listTodosIntegration = new apiGwIntegrations.HttpLambdaIntegration(
-      "listTodosIntegration",
-      listTodosLambda
-    );
+    const listTodosIntegration =
+      new apigatewayv2_integrations_alpha.HttpLambdaIntegration(
+        "listTodosIntegration",
+        listTodosLambda
+      );
 
     // Api routes
     todoHttpApi.addRoutes({
       path: "/todos",
-      methods: [apiGw.HttpMethod.GET],
+      methods: [apigatewayv2_alpha.HttpMethod.GET],
       integration: listTodosIntegration,
     });
 

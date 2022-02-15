@@ -1,7 +1,7 @@
 import * as cdk from "aws-cdk-lib";
-import * as cloudFront from "aws-cdk-lib/aws-cloudfront";
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as s3 from "aws-cdk-lib/aws-s3";
-import * as s3Deployment from "aws-cdk-lib/aws-s3-deployment";
+import * as s3_deployment from "aws-cdk-lib/aws-s3-deployment";
 import { Construct } from "constructs";
 import * as path from "path";
 
@@ -15,10 +15,10 @@ export class FrontendDeploymentStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    const todoOAI = new cloudFront.OriginAccessIdentity(this, "TodoOAI");
+    const todoOAI = new cloudfront.OriginAccessIdentity(this, "TodoOAI");
     todoBucket.grantRead(todoOAI);
 
-    const todoWebDestribution = new cloudFront.CloudFrontWebDistribution(
+    const todoWebDestribution = new cloudfront.CloudFrontWebDistribution(
       this,
       "TodoWebDestribution",
       {
@@ -34,9 +34,9 @@ export class FrontendDeploymentStack extends cdk.Stack {
       }
     );
 
-    new s3Deployment.BucketDeployment(this, "TodoBucketDeployment", {
+    new s3_deployment.BucketDeployment(this, "TodoBucketDeployment", {
       sources: [
-        s3Deployment.Source.asset(
+        s3_deployment.Source.asset(
           path.resolve(__dirname, "../../frontend/out")
         ),
       ],
