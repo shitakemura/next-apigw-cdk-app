@@ -15,6 +15,7 @@ type TodosContextType = {
   errorMessage: string | null;
   listTodos: () => void;
   createTodo: (body: { title: string }) => void;
+  updateTodo: (id: string, body: { completed: boolean }) => void;
   clearErrorMessage: () => void;
 };
 
@@ -24,8 +25,14 @@ const baseUrl = process.env.NEXT_PUBLIC_API_ENDPOINT_URL;
 export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const { accessToken } = useAccessToken();
-  const { isLoading, errorMessage, getApi, postApi, clearErrorMessage } =
-    useApi();
+  const {
+    isLoading,
+    errorMessage,
+    getApi,
+    postApi,
+    putApi,
+    clearErrorMessage,
+  } = useApi();
 
   const listTodos = useCallback(async () => {
     if (!accessToken) return;
@@ -53,6 +60,33 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     [todos, accessToken, postApi]
   );
 
+  const updateTodo = useCallback(
+    async (id: string, body: { completed: boolean }) => {
+      const url = baseUrl + `/todos/${id}`;
+      const updatedTodo = await putApi<Todo, { completed: boolean }>(
+        url,
+        accessToken,
+        body
+      );
+
+      if (updatedTodo) {
+        setTodos(
+          todos.map((todo) => {
+            if (
+              todo.userId === updatedTodo.userId &&
+              todo.id === updatedTodo.id
+            ) {
+              return updatedTodo;
+            } else {
+              return todo;
+            }
+          })
+        );
+      }
+    },
+    [todos, accessToken, putApi]
+  );
+
   return (
     <TodosContext.Provider
       value={{
@@ -61,6 +95,7 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
         errorMessage,
         listTodos,
         createTodo,
+        updateTodo,
         clearErrorMessage,
       }}>
       {children}

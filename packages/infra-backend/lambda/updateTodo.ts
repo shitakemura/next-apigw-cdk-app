@@ -1,5 +1,6 @@
 import { APIGatewayProxyEventV2WithJWTAuthorizer } from "aws-lambda";
 import { DynamoDB } from "aws-sdk";
+import { Todo } from "../../shared/models";
 
 const docClient = new DynamoDB.DocumentClient();
 
@@ -32,7 +33,7 @@ export const handler = async (
 
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
+      body: JSON.stringify(data.Attributes as Todo),
     };
   } catch (error) {
     return {

@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { HStack, Text } from "@chakra-ui/react";
+import { Checkbox, HStack, Text } from "@chakra-ui/react";
 import { Todo } from "../../../shared/models";
+import { useTodos } from "../../hooks/useTodosContext";
 
 type TodoItemProps = {
   todo: Todo;
 };
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const [todoItem] = useState<Todo>(todo);
+  const { updateTodo } = useTodos();
 
   return (
     <HStack
@@ -18,11 +19,18 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       height='16'
       justify='space-between'
       spacing={8}>
-      <Text
-        textDecoration={todoItem.completed ? "line-through" : undefined}
-        color={todoItem.completed ? "gray.500" : "black"}>
-        {todoItem.title}
-      </Text>
+      <HStack spacing={8}>
+        <Checkbox
+          size='lg'
+          isChecked={todo.completed}
+          onChange={() => updateTodo(todo.id, { completed: !todo.completed })}
+        />
+        <Text
+          textDecoration={todo.completed ? "line-through" : undefined}
+          color={todo.completed ? "gray.500" : "black"}>
+          {todo.title}
+        </Text>
+      </HStack>
     </HStack>
   );
 };

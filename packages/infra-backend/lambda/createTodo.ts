@@ -33,7 +33,7 @@ export const handler = async (
 
     return {
       statusCode: 200,
-      body: JSON.stringify(putItem),
+      body: JSON.stringify(putItem as Todo),
     };
   } catch (error) {
     return {

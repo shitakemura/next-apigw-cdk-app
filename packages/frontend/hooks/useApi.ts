@@ -58,7 +58,7 @@ export const useApi = () => {
         if (error instanceof Error) {
           setErrorMessage(error.message);
         } else {
-          setErrorMessage("createTodo API error");
+          setErrorMessage(`POST API error: ${url}`);
         }
       } finally {
         setIsLoading(false);
@@ -67,5 +67,49 @@ export const useApi = () => {
     []
   );
 
-  return { isLoading, errorMessage, getApi, postApi, clearErrorMessage };
+  const putApi = useCallback(
+    async <T, U>(url: string, accessToken: string | null, body: U) => {
+      try {
+        if (!accessToken) {
+          throw new Error("no access token");
+        }
+
+        setIsLoading(true);
+        const response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: accessToken,
+          },
+          body: JSON.stringify(body),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+
+        return data as T;
+      } catch (error) {
+        if (error instanceof Error) {
+          setErrorMessage(error.message);
+        } else {
+          setErrorMessage(`PUT API error: ${url}`);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  return {
+    isLoading,
+    errorMessage,
+    getApi,
+    postApi,
+    putApi,
+    clearErrorMessage,
+  };
 };
