@@ -48,8 +48,18 @@ export class BackendApiStack extends cdk.Stack {
       }
     );
 
+    const updateTodoLambda = new lambda_nodejs.NodejsFunction(
+      this,
+      "updateTodoHandler",
+      {
+        entry: path.join(__dirname, "../lambda/updateTodo.ts"),
+        ...commonLambdaProps,
+      }
+    );
+
     todoTable.grantReadData(listTodosLambda);
     todoTable.grantReadWriteData(createTodoLambda);
+    todoTable.grantReadWriteData(updateTodoLambda);
 
     // Http Api Gateway
     const todoHttpApi = new apigatewayv2_alpha.HttpApi(this, "TodoHttpApi", {
@@ -59,6 +69,7 @@ export class BackendApiStack extends cdk.Stack {
           apigatewayv2_alpha.CorsHttpMethod.OPTIONS,
           apigatewayv2_alpha.CorsHttpMethod.GET,
           apigatewayv2_alpha.CorsHttpMethod.POST,
+          apigatewayv2_alpha.CorsHttpMethod.PUT,
         ],
         allowOrigins: [
           "http://localhost:3000",
@@ -90,6 +101,12 @@ export class BackendApiStack extends cdk.Stack {
         createTodoLambda
       );
 
+    const updateTodoIntegration =
+      new apigatewayv2_integrations_alpha.HttpLambdaIntegration(
+        "updateTodoIntegration",
+        updateTodoLambda
+      );
+
     // Api routes
     todoHttpApi.addRoutes({
       path: "/todos",
@@ -103,6 +120,13 @@ export class BackendApiStack extends cdk.Stack {
       methods: [apigatewayv2_alpha.HttpMethod.POST],
       authorizer,
       integration: createTodoIntegration,
+    });
+
+    todoHttpApi.addRoutes({
+      path: "/todos/{id}",
+      methods: [apigatewayv2_alpha.HttpMethod.PUT],
+      authorizer,
+      integration: updateTodoIntegration,
     });
 
     // CrnOutput

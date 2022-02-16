@@ -7,4 +7,7 @@ node_modules
 .cdk.staging
 cdk.out
 
+# VS Code rest client
+todo-api.rest
+
 .env
