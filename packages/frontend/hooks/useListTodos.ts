@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Todo } from "../../shared/models";
+import { useAccessToken } from "./useAccessToken";
 
 export const useListTodos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -7,7 +8,10 @@ export const useListTodos = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const clearErrorMessage = useCallback(() => setErrorMessage(null), []);
 
+  const { accessToken } = useAccessToken();
+
   useEffect(() => {
+    if (!accessToken) return;
     const listTodos = async () => {
       const url = `${process.env.NEXT_PUBLIC_API_ENDPOINT_URL}/todos`;
 
@@ -17,6 +21,7 @@ export const useListTodos = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: accessToken ?? "",
           },
         });
 
@@ -39,7 +44,7 @@ export const useListTodos = () => {
     };
 
     listTodos();
-  }, []);
+  }, [accessToken]);
 
   return {
     todos,
