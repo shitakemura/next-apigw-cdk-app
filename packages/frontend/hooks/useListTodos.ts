@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Todo } from "../../shared/models";
 
 export const useListTodos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const clearErrorMessage = useCallback(() => setErrorMessage(null), []);
 
   useEffect(() => {
     const listTodos = async () => {
       const url = `${process.env.NEXT_PUBLIC_API_ENDPOINT_URL}/todos`;
 
-      setLoading(true);
+      setIsLoading(true);
       try {
         const response = await fetch(url, {
           method: "GET",
@@ -28,12 +29,12 @@ export const useListTodos = () => {
         setTodos(data as Todo[]);
       } catch (error: any) {
         if (error instanceof Error) {
-          setError(error.message);
+          setErrorMessage(error.message);
         } else {
-          setError("listTodos API error");
+          setErrorMessage("listTodos API error");
         }
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -42,7 +43,8 @@ export const useListTodos = () => {
 
   return {
     todos,
-    loading,
-    error,
+    isLoading,
+    errorMessage,
+    clearErrorMessage,
   };
 };
