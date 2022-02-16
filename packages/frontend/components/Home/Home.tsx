@@ -1,5 +1,6 @@
 import { Spinner, Stack, VStack } from "@chakra-ui/react";
 import { useAccessToken } from "../../hooks/useAccessToken";
+import { TodosProvider } from "../../hooks/useTodosContext";
 import { Header } from "../Header";
 import { Login } from "../Login";
 import { TodoScreen } from "../Todo";
@@ -26,7 +27,9 @@ export const Home = () => {
     return (
       <VStack>
         <Header />
-        <TodoScreen />
+        <TodosProvider>
+          <TodoScreen />
+        </TodosProvider>
       </VStack>
     );
   }

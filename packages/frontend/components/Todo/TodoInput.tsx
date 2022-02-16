@@ -1,11 +1,10 @@
 import { Button, HStack, Input } from "@chakra-ui/react";
 import { useState } from "react";
-import { Todo } from "../../../shared/models";
-import { useCreateTodo } from "../../hooks/useCreateTodo";
+import { useTodos } from "../../hooks/useTodosContext";
 
 export const TodoInput = () => {
   const [titleInput, setTitleInput] = useState("");
-  const { isLoading, createTodo } = useCreateTodo();
+  const { isLoading, createTodo } = useTodos();
 
   return (
     <HStack spacing={6}>
