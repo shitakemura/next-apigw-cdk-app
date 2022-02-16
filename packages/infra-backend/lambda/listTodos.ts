@@ -11,10 +11,12 @@ export const handler = async (
   event: APIGatewayProxyEventV2WithJWTAuthorizer
 ): Promise<APIGatewayProxyResultV2> => {
   try {
+    if (!process.env.TODO_TABLE) throw new Error("TODO_TABLE is not specified");
+
     const userId = event.requestContext.authorizer.jwt.claims.sub as string;
     const data = await docClient
       .query({
-        TableName: process.env.TODO_TABLE ?? "",
+        TableName: process.env.TODO_TABLE,
         KeyConditionExpression: "userId = :u",
         ExpressionAttributeValues: {
           ":u": userId,

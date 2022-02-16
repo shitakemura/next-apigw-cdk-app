@@ -1,7 +1,5 @@
 import { APIGatewayProxyEventV2WithJWTAuthorizer } from "aws-lambda";
 import { DynamoDB } from "aws-sdk";
-import { v4 as uuidv4 } from "uuid";
-import { Todo } from "../../shared/models";
 
 const docClient = new DynamoDB.DocumentClient();
 
@@ -9,33 +7,27 @@ export const handler = async (
   event: APIGatewayProxyEventV2WithJWTAuthorizer
 ) => {
   const userId = event.requestContext.authorizer.jwt.claims.sub as string;
-  const id = uuidv4();
-  const body = event.body ? JSON.parse(event.body) : undefined;
+  const id = event.pathParameters?.id;
 
   try {
     if (!process.env.TODO_TABLE) throw new Error("TODO_TABLE is not specified");
-    if (!body) throw new Error("request body is undefined");
-
-    const putItem: Todo = {
-      userId,
-      id,
-      ...body,
-      completed: false,
-      createdAt: Date.now(),
-    };
+    if (!id) throw new Error("id is not specified");
 
     await docClient
-      .put({
+      .delete({
         TableName: process.env.TODO_TABLE,
-        Item: putItem,
+        Key: {
+          userId,
+          id,
+        },
       })
       .promise();
 
     return {
       statusCode: 200,
-      body: JSON.stringify(putItem as Todo),
+      body: JSON.stringify({ userId, id }),
     };
-  } catch (error) {
+  } catch (error: any) {
     return {
       statusCode: 500,
       body: JSON.stringify({ error }),
