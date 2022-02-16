@@ -22,19 +22,34 @@ export class BackendApiStack extends cdk.Stack {
     });
 
     // Lambda
+    const commonLambdaProps: Omit<lambda_nodejs.NodejsFunctionProps, "entry"> =
+      {
+        handler: "handler",
+        environment: {
+          TODO_TABLE: todoTable.tableName,
+        },
+      };
+
     const listTodosLambda = new lambda_nodejs.NodejsFunction(
       this,
       "listTodosHandler",
       {
         entry: path.join(__dirname, "../lambda/listTodos.ts"),
-        handler: "handler",
-        environment: {
-          TODO_TABLE: todoTable.tableName,
-        },
+        ...commonLambdaProps,
+      }
+    );
+
+    const createTodoLambda = new lambda_nodejs.NodejsFunction(
+      this,
+      "createTodoHandler",
+      {
+        entry: path.join(__dirname, "../lambda/createTodo.ts"),
+        ...commonLambdaProps,
       }
     );
 
     todoTable.grantReadData(listTodosLambda);
+    todoTable.grantReadWriteData(createTodoLambda);
 
     // Http Api Gateway
     const todoHttpApi = new apigatewayv2_alpha.HttpApi(this, "TodoHttpApi", {
@@ -43,6 +58,7 @@ export class BackendApiStack extends cdk.Stack {
         allowMethods: [
           apigatewayv2_alpha.CorsHttpMethod.OPTIONS,
           apigatewayv2_alpha.CorsHttpMethod.GET,
+          apigatewayv2_alpha.CorsHttpMethod.POST,
         ],
         allowOrigins: [
           "http://localhost:3000",
@@ -68,12 +84,25 @@ export class BackendApiStack extends cdk.Stack {
         listTodosLambda
       );
 
+    const createTodoIntegration =
+      new apigatewayv2_integrations_alpha.HttpLambdaIntegration(
+        "createTodoIntegration",
+        createTodoLambda
+      );
+
     // Api routes
     todoHttpApi.addRoutes({
       path: "/todos",
       methods: [apigatewayv2_alpha.HttpMethod.GET],
       authorizer,
       integration: listTodosIntegration,
+    });
+
+    todoHttpApi.addRoutes({
+      path: "/todos",
+      methods: [apigatewayv2_alpha.HttpMethod.POST],
+      authorizer,
+      integration: createTodoIntegration,
     });
 
     // CrnOutput

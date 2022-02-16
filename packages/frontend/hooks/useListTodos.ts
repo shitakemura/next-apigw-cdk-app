@@ -21,7 +21,7 @@ export const useListTodos = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: accessToken ?? "",
+            Authorization: accessToken,
           },
         });
 

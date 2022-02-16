@@ -26,10 +26,10 @@ export const handler = async (
       statusCode: 200,
       body: JSON.stringify(data.Items as Todo[]),
     };
-  } catch (err) {
+  } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ err }),
+      body: JSON.stringify({ error }),
     };
   }
 };
