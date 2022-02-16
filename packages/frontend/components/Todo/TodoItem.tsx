@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Checkbox, HStack, Text } from "@chakra-ui/react";
+import { Checkbox, HStack, Spinner, Text } from "@chakra-ui/react";
 import { Todo } from "../../../shared/models";
 import { useTodos } from "../../hooks/useTodosContext";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 type TodoItemProps = {
   todo: Todo;
 };
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const { updateTodo } = useTodos();
+  const { isLoading, updateTodo, deleteTodo } = useTodos();
 
   return (
     <HStack
@@ -31,6 +31,21 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
           {todo.title}
         </Text>
       </HStack>
+      {isLoading ? (
+        <Spinner
+          size='md'
+          thickness='4px'
+          emptyColor='gray.200'
+          color='green.500'
+        />
+      ) : (
+        <DeleteIcon
+          color='green.500'
+          boxSize={5}
+          _hover={{ boxSize: 6 }}
+          onClick={() => deleteTodo(todo.id)}
+        />
+      )}
     </HStack>
   );
 };

@@ -16,6 +16,7 @@ type TodosContextType = {
   listTodos: () => void;
   createTodo: (body: { title: string }) => void;
   updateTodo: (id: string, body: { completed: boolean }) => void;
+  deleteTodo: (id: string) => void;
   clearErrorMessage: () => void;
 };
 
@@ -31,6 +32,7 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     getApi,
     postApi,
     putApi,
+    deleteApi,
     clearErrorMessage,
   } = useApi();
 
@@ -87,6 +89,28 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     [todos, accessToken, putApi]
   );
 
+  const deleteTodo = useCallback(
+    async (id: string) => {
+      const url = baseUrl + `/todos/${id}`;
+      const deletedTodo = await deleteApi<{ userId: string; id: string }>(
+        url,
+        accessToken
+      );
+
+      if (deletedTodo) {
+        setTodos(
+          todos.filter(
+            (todo) =>
+              !(
+                todo.userId === deletedTodo.userId && todo.id === deletedTodo.id
+              )
+          )
+        );
+      }
+    },
+    [todos, accessToken, deleteApi]
+  );
+
   return (
     <TodosContext.Provider
       value={{
@@ -96,6 +120,7 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
         listTodos,
         createTodo,
         updateTodo,
+        deleteTodo,
         clearErrorMessage,
       }}>
       {children}
