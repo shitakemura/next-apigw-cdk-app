@@ -7,11 +7,11 @@ import {
 } from "react";
 import { Todo } from "../../shared/models";
 import { useAccessToken } from "./useAccessToken";
-import { useApi } from "./useApi";
+import { isLoadingType, useApi } from "./useApi";
 
 type TodosContextType = {
   todos: Todo[];
-  isLoading: boolean;
+  isLoading: isLoadingType;
   errorMessage: string | null;
   listTodos: () => void;
   createTodo: (body: { title: string }) => void;
@@ -66,6 +66,7 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     async (id: string, body: { completed: boolean }) => {
       const url = baseUrl + `/todos/${id}`;
       const updatedTodo = await putApi<Todo, { completed: boolean }>(
+        id,
         url,
         accessToken,
         body
@@ -93,6 +94,7 @@ export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
     async (id: string) => {
       const url = baseUrl + `/todos/${id}`;
       const deletedTodo = await deleteApi<{ userId: string; id: string }>(
+        id,
         url,
         accessToken
       );

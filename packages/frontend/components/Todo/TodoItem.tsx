@@ -2,6 +2,7 @@ import { Checkbox, HStack, Spinner, Text } from "@chakra-ui/react";
 import { Todo } from "../../../shared/models";
 import { useTodos } from "../../hooks/useTodosContext";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { useMemo } from "react";
 
 type TodoItemProps = {
   todo: Todo;
@@ -9,6 +10,16 @@ type TodoItemProps = {
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
   const { isLoading, updateTodo, deleteTodo } = useTodos();
+
+  const isDeleteLoading = useMemo(() => {
+    return (
+      (isLoading &&
+        isLoading.type === "DELETE" &&
+        isLoading.id === todo.id &&
+        isLoading.value === true) ??
+      false
+    );
+  }, [isLoading, todo.id]);
 
   return (
     <HStack
@@ -31,7 +42,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
           {todo.title}
         </Text>
       </HStack>
-      {isLoading ? (
+      {isDeleteLoading ? (
         <Spinner
           size='md'
           thickness='4px'

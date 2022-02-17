@@ -1,14 +1,24 @@
 import { stringify } from "querystring";
 import { useCallback, useState } from "react";
 
+export type isLoadingType = {
+  type: "GET" | "POST" | "PUT" | "DELETE";
+  id?: string;
+  value: boolean;
+} | null;
+
 export const useApi = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<{
+    type: "GET" | "POST" | "PUT" | "DELETE";
+    id?: string;
+    value: boolean;
+  } | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const clearErrorMessage = useCallback(() => setErrorMessage(null), []);
 
   const getApi = useCallback(async <T>(url: string, accessToken: string) => {
     try {
-      setIsLoading(true);
+      setIsLoading({ type: "GET", value: true });
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -26,7 +36,7 @@ export const useApi = () => {
         setErrorMessage(`GET API error: ${url}`);
       }
     } finally {
-      setIsLoading(false);
+      setIsLoading({ type: "GET", value: false });
     }
   }, []);
 
@@ -37,7 +47,7 @@ export const useApi = () => {
           throw new Error("no access token");
         }
 
-        setIsLoading(true);
+        setIsLoading({ type: "POST", value: true });
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -61,20 +71,25 @@ export const useApi = () => {
           setErrorMessage(`POST API error: ${url}`);
         }
       } finally {
-        setIsLoading(false);
+        setIsLoading({ type: "POST", value: false });
       }
     },
     []
   );
 
   const putApi = useCallback(
-    async <T, U>(url: string, accessToken: string | null, body: U) => {
+    async <T, U>(
+      id: string,
+      url: string,
+      accessToken: string | null,
+      body: U
+    ) => {
       try {
         if (!accessToken) {
           throw new Error("no access token");
         }
 
-        setIsLoading(true);
+        setIsLoading({ type: "PUT", id, value: true });
         const response = await fetch(url, {
           method: "PUT",
           headers: {
@@ -98,20 +113,20 @@ export const useApi = () => {
           setErrorMessage(`PUT API error: ${url}`);
         }
       } finally {
-        setIsLoading(false);
+        setIsLoading({ type: "PUT", id, value: false });
       }
     },
     []
   );
 
   const deleteApi = useCallback(
-    async <T>(url: string, accessToken: string | null) => {
+    async <T>(id: string, url: string, accessToken: string | null) => {
       try {
         if (!accessToken) {
           throw new Error("no access token");
         }
 
-        setIsLoading(true);
+        setIsLoading({ type: "DELETE", id, value: true });
         const response = await fetch(url, {
           method: "DELETE",
           headers: {
@@ -134,7 +149,7 @@ export const useApi = () => {
           setErrorMessage(`DELETE API error: ${url}`);
         }
       } finally {
-        setIsLoading(false);
+        setIsLoading({ type: "DELETE", id, value: false });
       }
     },
     []
