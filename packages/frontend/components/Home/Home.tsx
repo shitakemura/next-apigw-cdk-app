@@ -3,7 +3,7 @@ import { useAccessToken } from "../../hooks/useAccessToken";
 import { TodosProvider } from "../../hooks/useTodosContext";
 import { Header } from "../Header";
 import { Login } from "../Login";
-import { TodoScreen } from "../Todo";
+import { TodoScreen } from "../Todo/TodoScreen";
 
 export const Home = () => {
   const { accessToken, isLoading, errorMessage } = useAccessToken();

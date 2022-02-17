@@ -1,6 +1,6 @@
 import { Checkbox, HStack, Spinner, Text } from "@chakra-ui/react";
-import { Todo } from "../../../shared/models";
-import { useTodos } from "../../hooks/useTodosContext";
+import { Todo } from "../../../../shared/models";
+import { useTodos } from "../../../hooks/useTodosContext";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useMemo } from "react";
 

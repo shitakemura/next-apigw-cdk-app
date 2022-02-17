@@ -1,6 +1,6 @@
 import { VStack } from "@chakra-ui/react";
-import { Todo } from "../../../shared/models";
-import { TodoItem } from "./TodoItem";
+import { Todo } from "../../../../shared/models";
+import { TodoItem } from "../TodoItem";
 
 type TodoListProps = {
   todos: Todo[];

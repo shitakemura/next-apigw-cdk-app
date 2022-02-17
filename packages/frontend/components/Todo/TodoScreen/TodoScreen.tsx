@@ -1,8 +1,8 @@
 import { VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useTodos } from "../../hooks/useTodosContext";
-import { TodoInput } from "./TodoInput";
-import { TodoList } from "./TodoList";
+import { useTodos } from "../../../hooks/useTodosContext";
+import { TodoInput } from "../TodoInput";
+import { TodoList } from "../TodoList";
 
 export const TodoScreen = () => {
   const { todos, listTodos } = useTodos();
