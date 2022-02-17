@@ -23,6 +23,7 @@
     "backend-api:deploy": "yarn workspace infra-backend backend-api:deploy",
     "frontend-deployment:deploy": "yarn workspace infra-backend frontend-deployment:deploy",
     "frontend:dev": "yarn workspace frontend dev",
+    "frontend:test": "yarn workspace frontend test",
     "frontend:build": "yarn workspace frontend build"
   }
 }
