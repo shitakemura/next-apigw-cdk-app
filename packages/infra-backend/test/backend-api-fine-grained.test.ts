@@ -11,5 +11,5 @@ test("backend-api fine grained assertions test", () => {
   template.resourceCountIs("AWS::ApiGatewayV2::Api", 1);
 
   // Lambda
-  template.resourceCountIs("AWS::Lambda::Function", 3);
+  template.resourceCountIs("AWS::Lambda::Function", 4);
 });
