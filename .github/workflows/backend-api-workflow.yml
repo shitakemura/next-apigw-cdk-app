@@ -17,10 +17,14 @@ jobs:
         with:
           node-version: "14.x"
           cache: "yarn"
-      - name: Create .env file
+      - name: Create infra-backend .env file
         run: echo "${{ secrets.BACKEND_ENV_PROD }}" > ./packages/infra-backend/.env
+      - name: Create frontend .env file
+        run: echo "${{ secrets.FRONTEND_ENV_PROD }}" > ./packages/frontend/.env
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Build & export frontend
+        run: yarn frontend:build
       - name: Unit Test
         run: yarn backend-api:test
       - name: Configure AWS credentials
