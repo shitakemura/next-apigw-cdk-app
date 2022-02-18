@@ -13,18 +13,17 @@
     ]
   },
   "scripts": {
-    "infra-backend:test": "yarn workspace infra-backend test",
-    "infra-backend:update-ss": "yarn workspace infra-backend test -- -u",
-    "infra-backend:synth": "yarn workspace infra-backend synth",
-    "infra-backend:diff": "yarn workspace infra-backend diff",
-    "infra-backend:deploy": "yarn backend-api:deploy && yarn frontend-deployment:deploy",
-    "backend-api:test": "yarn workspace infra-backend backend-api:test",
-    "frontend-deployment:test": "yarn workspace infra-backend frontend-deployment:test",
-    "backend-api:deploy": "yarn workspace infra-backend backend-api:deploy",
-    "frontend-deployment:deploy": "yarn workspace infra-backend frontend-deployment:deploy",
-    "frontend:dev": "yarn workspace frontend dev",
-    "frontend:test": "yarn workspace frontend test",
-    "frontend:build": "yarn workspace frontend build",
-    "frontend:storybook": "yarn workspace frontend storybook"
+    "backend-stack:test": "yarn workspace infra-backend backend-stack:test",
+    "frontend-stack:test": "yarn workspace infra-backend frontend-stack:test",
+    "backend-stack:diff": "yarn workspace infra-backend backend-stack:diff",
+    "frontend-stack:diff": "yarn workspace infra-backend frontend-stack:diff",
+    "backend-stack:deploy": "yarn workspace infra-backend backend-stack:deploy",
+    "frontend-stack:deploy": "yarn workspace infra-backend frontend-stack:deploy",
+    "backend-stack:destroy": "yarn workspace infra-backend backend-stack:destroy",
+    "frontend-stack:destroy": "yarn workspace infra-backend frontend-stack:destroy",
+    "frontend-app:dev": "yarn workspace frontend dev",
+    "frontend-app:test": "yarn workspace frontend test",
+    "frontend-app:build": "yarn workspace frontend build",
+    "frontend-app:storybook": "yarn workspace frontend storybook"
   }
 }

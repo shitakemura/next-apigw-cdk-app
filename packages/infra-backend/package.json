@@ -13,10 +13,14 @@
     "cdk": "cdk",
     "synth": "cdk synth",
     "diff": "cdk diff",
-    "backend-api:test": "jest \"backend-api.*\\.test\\.ts\"",
-    "frontend-deployment:test": "jest \"frontend-deployment.*\\.test\\.ts\"",
-    "backend-api:deploy": "cdk deploy BackendApiStack --require-approval never",
-    "frontend-deployment:deploy": "cdk deploy FrontendDeploymentStack --require-approval never"
+    "backend-stack:test": "jest \"backend-api.*\\.test\\.ts\"",
+    "frontend-stack:test": "jest \"frontend-deployment.*\\.test\\.ts\"",
+    "backend-stack:diff": "cdk diff BackendApiStack",
+    "frontend-stack:diff": "cdk diff FrontendDeploymentStack",
+    "backend-stack:deploy": "cdk deploy BackendApiStack --require-approval never",
+    "frontend-stack:deploy": "cdk deploy FrontendDeploymentStack --require-approval never",
+    "backend-stack:destroy": "cdk destroy BackendApiStack",
+    "frontend-stack:destroy": "cdk destroy FrontendDeploymentStack"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",
