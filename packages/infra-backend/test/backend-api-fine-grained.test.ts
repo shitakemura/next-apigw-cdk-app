@@ -4,7 +4,10 @@ import { BackendApiStack } from "../lib/backend-api-stack";
 
 test("backend-api fine grained assertions test", () => {
   const app = new cdk.App();
-  const stack = new BackendApiStack(app, "BackendApiFineGraindTestStack");
+  const stack = new BackendApiStack(app, "BackendApiFineGraindTestStack", {
+    envName: "dev",
+    projectName: "todo-app",
+  });
   const template = Template.fromStack(stack);
 
   // Http API Gateway

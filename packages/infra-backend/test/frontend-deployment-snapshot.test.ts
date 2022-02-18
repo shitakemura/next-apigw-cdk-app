@@ -6,7 +6,11 @@ test("frontend-deployment snapshot test", () => {
   const app = new cdk.App();
   const stack = new FrontendDeploymentStack(
     app,
-    "FrontendDeploymentSnapshotTestStack"
+    "FrontendDeploymentSnapshotTestStack",
+    {
+      envName: "dev",
+      projectName: "todo-app",
+    }
   );
   const template = Template.fromStack(stack);
 

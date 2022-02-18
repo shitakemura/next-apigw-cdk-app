@@ -3,10 +3,10 @@
 exports[`frontend-deployment snapshot test 1`] = `
 Object {
   "Outputs": Object {
-    "TodoWebDestributionName": Object {
+    "todowebdestributionname": Object {
       "Value": Object {
         "Fn::GetAtt": Array [
-          "TodoWebDestributionCFDistribution3E920AA4",
+          "todowebdestributionCFDistribution6210DBC6",
           "DomainName",
         ],
       },
@@ -35,7 +35,7 @@ Object {
         "Handler": "index.handler",
         "Layers": Array [
           Object {
-            "Ref": "TodoBucketDeploymentAwsCliLayer1DB0DA16",
+            "Ref": "todobucketdeploymentAwsCliLayer8940886F",
           },
         ],
         "Role": Object {
@@ -142,7 +142,7 @@ Object {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "TodoBucketD99D519D",
+                    "todobucket6FAE494B",
                     "Arn",
                   ],
                 },
@@ -152,7 +152,7 @@ Object {
                     Array [
                       Object {
                         "Fn::GetAtt": Array [
-                          "TodoBucketD99D519D",
+                          "todobucket6FAE494B",
                           "Arn",
                         ],
                       },
@@ -199,7 +199,7 @@ Object {
             Array [
               "Lambda function for auto-deleting objects in ",
               Object {
-                "Ref": "TodoBucketD99D519D",
+                "Ref": "todobucket6FAE494B",
               },
               " S3 bucket.",
             ],
@@ -240,14 +240,34 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "TodoBucketAutoDeleteObjectsCustomResourceC85862BA": Object {
+    "todobucket6FAE494B": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+          Object {
+            "Key": "aws-cdk:cr-owned:12860d21",
+            "Value": "true",
+          },
+        ],
+        "WebsiteConfiguration": Object {
+          "IndexDocument": "index.html",
+        },
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "todobucketAutoDeleteObjectsCustomResource20F55275": Object {
       "DeletionPolicy": "Delete",
       "DependsOn": Array [
-        "TodoBucketPolicy2C277226",
+        "todobucketPolicy9D2A4DF6",
       ],
       "Properties": Object {
         "BucketName": Object {
-          "Ref": "TodoBucketD99D519D",
+          "Ref": "todobucket6FAE494B",
         },
         "ServiceToken": Object {
           "Fn::GetAtt": Array [
@@ -259,27 +279,122 @@ Object {
       "Type": "Custom::S3AutoDeleteObjects",
       "UpdateReplacePolicy": "Delete",
     },
-    "TodoBucketD99D519D": Object {
-      "DeletionPolicy": "Delete",
+    "todobucketPolicy9D2A4DF6": Object {
       "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "aws-cdk:auto-delete-objects",
-            "Value": "true",
-          },
-          Object {
-            "Key": "aws-cdk:cr-owned:3827cd8a",
-            "Value": "true",
-          },
-        ],
-        "WebsiteConfiguration": Object {
-          "IndexDocument": "index.html",
+        "Bucket": Object {
+          "Ref": "todobucket6FAE494B",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::GetAtt": Array [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "todobucket6FAE494B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "todobucket6FAE494B",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "CanonicalUser": Object {
+                  "Fn::GetAtt": Array [
+                    "todooaiCF70D114",
+                    "S3CanonicalUserId",
+                  ],
+                },
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "todobucket6FAE494B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "todobucket6FAE494B",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": Object {
+                "CanonicalUser": Object {
+                  "Fn::GetAtt": Array [
+                    "todooaiCF70D114",
+                    "S3CanonicalUserId",
+                  ],
+                },
+              },
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "todobucket6FAE494B",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
         },
       },
-      "Type": "AWS::S3::Bucket",
-      "UpdateReplacePolicy": "Delete",
+      "Type": "AWS::S3::BucketPolicy",
     },
-    "TodoBucketDeploymentAwsCliLayer1DB0DA16": Object {
+    "todobucketdeploymentAwsCliLayer8940886F": Object {
       "Properties": Object {
         "Content": Object {
           "S3Bucket": Object {
@@ -291,14 +406,14 @@ Object {
       },
       "Type": "AWS::Lambda::LayerVersion",
     },
-    "TodoBucketDeploymentCustomResource3EA3A15A": Object {
+    "todobucketdeploymentCustomResourceC36E8E8B": Object {
       "DeletionPolicy": "Delete",
       "Properties": Object {
         "DestinationBucketName": Object {
-          "Ref": "TodoBucketD99D519D",
+          "Ref": "todobucket6FAE494B",
         },
         "DistributionId": Object {
-          "Ref": "TodoWebDestributionCFDistribution3E920AA4",
+          "Ref": "todowebdestributionCFDistribution6210DBC6",
         },
         "DistributionPaths": Array [
           "/*",
@@ -322,122 +437,7 @@ Object {
       "Type": "Custom::CDKBucketDeployment",
       "UpdateReplacePolicy": "Delete",
     },
-    "TodoBucketPolicy2C277226": Object {
-      "Properties": Object {
-        "Bucket": Object {
-          "Ref": "TodoBucketD99D519D",
-        },
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "s3:GetBucket*",
-                "s3:List*",
-                "s3:DeleteObject*",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "AWS": Object {
-                  "Fn::GetAtt": Array [
-                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
-                    "Arn",
-                  ],
-                },
-              },
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "TodoBucketD99D519D",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "TodoBucketD99D519D",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-              ],
-              "Effect": "Allow",
-              "Principal": Object {
-                "CanonicalUser": Object {
-                  "Fn::GetAtt": Array [
-                    "TodoOAI83DCD4A1",
-                    "S3CanonicalUserId",
-                  ],
-                },
-              },
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "TodoBucketD99D519D",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "TodoBucketD99D519D",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": "s3:GetObject",
-              "Effect": "Allow",
-              "Principal": Object {
-                "CanonicalUser": Object {
-                  "Fn::GetAtt": Array [
-                    "TodoOAI83DCD4A1",
-                    "S3CanonicalUserId",
-                  ],
-                },
-              },
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "TodoBucketD99D519D",
-                        "Arn",
-                      ],
-                    },
-                    "/*",
-                  ],
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::S3::BucketPolicy",
-    },
-    "TodoOAI83DCD4A1": Object {
+    "todooaiCF70D114": Object {
       "Properties": Object {
         "CloudFrontOriginAccessIdentityConfig": Object {
           "Comment": "Allows CloudFront to reach the bucket",
@@ -445,7 +445,7 @@ Object {
       },
       "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
     },
-    "TodoWebDestributionCFDistribution3E920AA4": Object {
+    "todowebdestributionCFDistribution6210DBC6": Object {
       "Properties": Object {
         "DistributionConfig": Object {
           "DefaultCacheBehavior": Object {
@@ -477,7 +477,7 @@ Object {
               "ConnectionTimeout": 10,
               "DomainName": Object {
                 "Fn::GetAtt": Array [
-                  "TodoBucketD99D519D",
+                  "todobucket6FAE494B",
                   "RegionalDomainName",
                 ],
               },
@@ -489,7 +489,7 @@ Object {
                     Array [
                       "origin-access-identity/cloudfront/",
                       Object {
-                        "Ref": "TodoOAI83DCD4A1",
+                        "Ref": "todooaiCF70D114",
                       },
                     ],
                   ],
