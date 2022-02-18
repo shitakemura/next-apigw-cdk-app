@@ -15,12 +15,14 @@
     "diff": "cdk diff",
     "backend-stack:test": "jest \"backend-api.*\\.test\\.ts\"",
     "frontend-stack:test": "jest \"frontend-deployment.*\\.test\\.ts\"",
-    "backend-stack:diff": "cdk diff BackendApiStack",
-    "frontend-stack:diff": "cdk diff FrontendDeploymentStack",
-    "backend-stack:deploy": "cdk deploy BackendApiStack --require-approval never",
-    "frontend-stack:deploy": "cdk deploy FrontendDeploymentStack --require-approval never",
-    "backend-stack:destroy": "cdk destroy BackendApiStack",
-    "frontend-stack:destroy": "cdk destroy FrontendDeploymentStack"
+    "backend-stack:synth": "cdk synth dev-todo-app-backend-api-stack",
+    "backend-stack:diff": "cdk diff dev-todo-app-backend-api-stack",
+    "backend-stack:deploy": "cdk deploy dev-todo-app-backend-api-stack --require-approval never",
+    "backend-stack:destroy": "cdk destroy dev-todo-app-backend-api-stack",
+    "frontend-stack:synth": "cdk synth dev-todo-app-frontend-deployment-stack",
+    "frontend-stack:diff": "cdk diff dev-todo-app-frontend-deployment-stack",
+    "frontend-stack:deploy": "cdk deploy dev-todo-app-frontend-deployment-stack --require-approval never",
+    "frontend-stack:destroy": "cdk destroy dev-todo-app-frontend-deployment-stack"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",

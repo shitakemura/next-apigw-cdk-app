@@ -9,12 +9,17 @@ import * as path from "path";
 import * as dotenv from "dotenv";
 
 dotenv.config();
+
+type BackendApiStackProps = {
+  envName: string;
+  projectName: string;
+} & cdk.StackProps;
 export class BackendApiStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: BackendApiStackProps) {
     super(scope, id, props);
 
     // DynamoDB
-    const todoTable = new dynamodb.Table(this, "TodoTable", {
+    const todoTable = new dynamodb.Table(this, `todo-table`, {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       partitionKey: { name: "userId", type: dynamodb.AttributeType.STRING },
@@ -32,7 +37,7 @@ export class BackendApiStack extends cdk.Stack {
 
     const listTodosLambda = new lambda_nodejs.NodejsFunction(
       this,
-      "listTodosHandler",
+      `list-todos-lambda`,
       {
         entry: path.join(__dirname, "../lambda/listTodos.ts"),
         ...commonLambdaProps,
@@ -41,7 +46,7 @@ export class BackendApiStack extends cdk.Stack {
 
     const createTodoLambda = new lambda_nodejs.NodejsFunction(
       this,
-      "createTodoHandler",
+      `create-todo-lambda`,
       {
         entry: path.join(__dirname, "../lambda/createTodo.ts"),
         ...commonLambdaProps,
@@ -50,7 +55,7 @@ export class BackendApiStack extends cdk.Stack {
 
     const updateTodoLambda = new lambda_nodejs.NodejsFunction(
       this,
-      "updateTodoHandler",
+      `update-todo-lambda`,
       {
         entry: path.join(__dirname, "../lambda/updateTodo.ts"),
         ...commonLambdaProps,
@@ -59,7 +64,7 @@ export class BackendApiStack extends cdk.Stack {
 
     const deleteTodoLambda = new lambda_nodejs.NodejsFunction(
       this,
-      "deleteTodoHandler",
+      `delete-todo-lambda`,
       {
         entry: path.join(__dirname, "../lambda/deleteTodo.ts"),
         ...commonLambdaProps,
@@ -72,7 +77,7 @@ export class BackendApiStack extends cdk.Stack {
     todoTable.grantReadWriteData(deleteTodoLambda);
 
     // Http Api Gateway
-    const todoHttpApi = new apigatewayv2_alpha.HttpApi(this, "TodoHttpApi", {
+    const todoHttpApi = new apigatewayv2_alpha.HttpApi(this, `todo-http-api`, {
       corsPreflight: {
         allowHeaders: ["Content-Type", "Authorization"],
         allowMethods: [
@@ -84,7 +89,7 @@ export class BackendApiStack extends cdk.Stack {
         ],
         allowOrigins: [
           "http://localhost:3000",
-          "https://d1ga29t5ymw1db.cloudfront.net",
+          "https://dnnkr3krcvgjq.cloudfront.net",
         ],
       },
     });
@@ -92,7 +97,7 @@ export class BackendApiStack extends cdk.Stack {
     // Jwt Authorizer
     const issuer = `${process.env.AUTH0_DOMAIN}/`;
     const authorizer = new apigatewayv2_authorizers_alpha.HttpJwtAuthorizer(
-      "TodoJwtAuthorizer",
+      `todo-jwt-authorizer`,
       issuer,
       {
         jwtAudience: [process.env.AUTH0_API_AUDIENCE ?? ""],
@@ -102,25 +107,25 @@ export class BackendApiStack extends cdk.Stack {
     // Http Lambda Integration
     const listTodosIntegration =
       new apigatewayv2_integrations_alpha.HttpLambdaIntegration(
-        "listTodosIntegration",
+        `list-todos-integration`,
         listTodosLambda
       );
 
     const createTodoIntegration =
       new apigatewayv2_integrations_alpha.HttpLambdaIntegration(
-        "createTodoIntegration",
+        `create-todo-integration`,
         createTodoLambda
       );
 
     const updateTodoIntegration =
       new apigatewayv2_integrations_alpha.HttpLambdaIntegration(
-        "updateTodoIntegration",
+        `update-todo-integration`,
         updateTodoLambda
       );
 
     const deleteTodoIntegration =
       new apigatewayv2_integrations_alpha.HttpLambdaIntegration(
-        "deleteTodoIntegration",
+        `delete-todo-integration`,
         deleteTodoLambda
       );
 
@@ -154,7 +159,7 @@ export class BackendApiStack extends cdk.Stack {
     });
 
     // CrnOutput
-    new cdk.CfnOutput(this, "TodoHttpApi Endpoint", {
+    new cdk.CfnOutput(this, `todo-http-api endpoint`, {
       value: todoHttpApi.apiEndpoint,
     });
   }

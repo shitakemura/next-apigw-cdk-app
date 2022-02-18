@@ -5,22 +5,31 @@ import * as s3_deployment from "aws-cdk-lib/aws-s3-deployment";
 import { Construct } from "constructs";
 import * as path from "path";
 
+type FrontendDeploymentStackProps = {
+  envName: string;
+  projectName: string;
+} & cdk.StackProps;
+
 export class FrontendDeploymentStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: FrontendDeploymentStackProps
+  ) {
     super(scope, id, props);
 
-    const todoBucket = new s3.Bucket(this, "TodoBucket", {
+    const todoBucket = new s3.Bucket(this, `todo-bucket`, {
       websiteIndexDocument: "index.html",
       autoDeleteObjects: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    const todoOAI = new cloudfront.OriginAccessIdentity(this, "TodoOAI");
+    const todoOAI = new cloudfront.OriginAccessIdentity(this, `todo-oai`);
     todoBucket.grantRead(todoOAI);
 
     const todoWebDestribution = new cloudfront.CloudFrontWebDistribution(
       this,
-      "TodoWebDestribution",
+      `todo-web-destribution`,
       {
         originConfigs: [
           {
@@ -34,7 +43,7 @@ export class FrontendDeploymentStack extends cdk.Stack {
       }
     );
 
-    new s3_deployment.BucketDeployment(this, "TodoBucketDeployment", {
+    new s3_deployment.BucketDeployment(this, `todo-bucket-deployment`, {
       sources: [
         s3_deployment.Source.asset(
           path.resolve(__dirname, "../../frontend/out")
@@ -45,7 +54,7 @@ export class FrontendDeploymentStack extends cdk.Stack {
       distributionPaths: ["/*"],
     });
 
-    new cdk.CfnOutput(this, "TodoWebDestributionName", {
+    new cdk.CfnOutput(this, `todo-web-destribution name`, {
       value: todoWebDestribution.distributionDomainName,
     });
   }
