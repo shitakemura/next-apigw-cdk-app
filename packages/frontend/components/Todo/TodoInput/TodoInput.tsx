@@ -30,8 +30,9 @@ export const TodoInput = () => {
         disabled={!titleInput}
         isLoading={isPostLoading}
         onClick={() => {
-          createTodo({ title: titleInput });
-          clearTitleInput();
+          // createTodo({ title: titleInput });
+          // clearTitleInput();
+          throw new Error("Sentry Frontend Error");
         }}>
         Add Todo
       </Button>
