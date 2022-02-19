@@ -1,0 +1,22 @@
+name: backend-api-test-workflow
+on:
+  push:
+    paths:
+      - "packages/infra-backend/**"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+          cache: "yarn"
+      - name: Create infra-backend .env file
+        run: echo "${{ secrets.BACKEND_ENV_PROD }}" > ./packages/infra-backend/.env
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Unit Test
+        run: yarn backend-stack:test
