@@ -1,0 +1,24 @@
+name: frontend-deployment-test-workflow
+on:
+  push:
+    paths:
+      - "packages/frontend/**"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+          cache: "yarn"
+      - name: Create .env file
+        run: echo "${{ secrets.FRONTEND_ENV_PROD }}" > ./packages/frontend/.env
+      - name: Install dependencies
+        run: yarn install --frozon-lockfile
+      - name: Build & export frontend
+        run: yarn frontend-app:build
+      - name: Unit Test
+        run: yarn frontend-stack:test
