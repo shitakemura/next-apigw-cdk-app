@@ -16,6 +16,8 @@ jobs:
           cache: "yarn"
       - name: Create .env file
         run: echo "${{ secrets.FRONTEND_ENV_PROD }}" > ./packages/frontend/.env
+      - name: Create .sentryclirc file
+        run: echo -e "[auth]\ntoken=${{ secrets.SENTRY_AUTH_TOKEN }}" > ./packages/frontend/.sentryclirc
       - name: Install dependencies
         run: yarn install --frozon-lockfile
       - name: Build & export frontend
