@@ -15,4 +15,7 @@ test("backend-api fine grained assertions test", () => {
 
   // Lambda
   template.resourceCountIs("AWS::Lambda::Function", 4);
+
+  // DynamoDB
+  template.resourceCountIs("AWS::DynamoDB::Table", 1);
 });
