@@ -31,7 +31,12 @@ export class BackendApiStack extends cdk.Stack {
       {
         handler: "handler",
         environment: {
+          NODE_OPTIONS: "--enable-source-maps",
           TODO_TABLE: todoTable.tableName,
+        },
+        bundling: {
+          sourceMap: true,
+          minify: true,
         },
       };
 

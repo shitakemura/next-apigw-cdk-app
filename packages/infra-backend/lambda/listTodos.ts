@@ -24,6 +24,8 @@ export const handler = async (
       })
       .promise();
 
+    console.log(`data: ${JSON.stringify(data.Items as Todo[])}`)
+
     return {
       statusCode: 200,
       body: JSON.stringify(data.Items as Todo[]),
