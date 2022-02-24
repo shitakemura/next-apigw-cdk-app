@@ -1,18 +1,11 @@
 import { Button, HStack, Input } from "@chakra-ui/react";
-import { useCallback, useMemo, useState } from "react";
-import { useTodos } from "../../../hooks/useTodosContext";
+import { useCallback, useState } from "react";
+import { useCreateTodo } from "../../../hooks/todos/useCreateTodo";
 
 export const TodoInput = () => {
   const [titleInput, setTitleInput] = useState("");
-  const { isLoading, createTodo } = useTodos();
+  const { createStatus, createTodo } = useCreateTodo();
   const clearTitleInput = useCallback(() => setTitleInput(""), []);
-
-  const isPostLoading = useMemo(() => {
-    return (
-      (isLoading && isLoading.type === "POST" && isLoading.value === true) ??
-      false
-    );
-  }, [isLoading]);
 
   return (
     <HStack spacing={6}>
@@ -28,7 +21,7 @@ export const TodoInput = () => {
         paddingX={8}
         colorScheme='green'
         disabled={!titleInput}
-        isLoading={isPostLoading}
+        isLoading={createStatus.isLoading}
         onClick={() => {
           createTodo({ title: titleInput });
           clearTitleInput();

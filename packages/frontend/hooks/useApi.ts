@@ -1,24 +1,13 @@
-import { stringify } from "querystring";
 import { useCallback, useState } from "react";
 
-export type isLoadingType = {
-  type: "GET" | "POST" | "PUT" | "DELETE";
-  id?: string;
-  value: boolean;
-} | null;
-
 export const useApi = () => {
-  const [isLoading, setIsLoading] = useState<{
-    type: "GET" | "POST" | "PUT" | "DELETE";
-    id?: string;
-    value: boolean;
-  } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const clearErrorMessage = useCallback(() => setErrorMessage(null), []);
 
   const getApi = useCallback(async <T>(url: string, accessToken: string) => {
     try {
-      setIsLoading({ type: "GET", value: true });
+      setIsLoading(true);
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -36,7 +25,7 @@ export const useApi = () => {
         setErrorMessage(`GET API error: ${url}`);
       }
     } finally {
-      setIsLoading({ type: "GET", value: false });
+      setIsLoading(false);
     }
   }, []);
 
@@ -47,7 +36,7 @@ export const useApi = () => {
           throw new Error("no access token");
         }
 
-        setIsLoading({ type: "POST", value: true });
+        setIsLoading(true);
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -71,7 +60,7 @@ export const useApi = () => {
           setErrorMessage(`POST API error: ${url}`);
         }
       } finally {
-        setIsLoading({ type: "POST", value: false });
+        setIsLoading(false);
       }
     },
     []
@@ -89,7 +78,7 @@ export const useApi = () => {
           throw new Error("no access token");
         }
 
-        setIsLoading({ type: "PUT", id, value: true });
+        setIsLoading(true);
         const response = await fetch(url, {
           method: "PUT",
           headers: {
@@ -113,7 +102,7 @@ export const useApi = () => {
           setErrorMessage(`PUT API error: ${url}`);
         }
       } finally {
-        setIsLoading({ type: "PUT", id, value: false });
+        setIsLoading(false);
       }
     },
     []
@@ -126,7 +115,7 @@ export const useApi = () => {
           throw new Error("no access token");
         }
 
-        setIsLoading({ type: "DELETE", id, value: true });
+        setIsLoading(true);
         const response = await fetch(url, {
           method: "DELETE",
           headers: {
@@ -149,7 +138,7 @@ export const useApi = () => {
           setErrorMessage(`DELETE API error: ${url}`);
         }
       } finally {
-        setIsLoading({ type: "DELETE", id, value: false });
+        setIsLoading(false);
       }
     },
     []

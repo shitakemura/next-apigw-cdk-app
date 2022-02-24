@@ -1,6 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
-import { useTodos } from "../../../hooks/useTodosContext";
+import { useListTodos } from "../../../hooks/todos/useListTodos";
 import { TodoFilter } from "../TodoFilter";
 import { TodoInput } from "../TodoInput";
 import { TodoList } from "../TodoList";
@@ -10,7 +10,7 @@ type FilterTupel = typeof FILTER_VALUES;
 export type Filter = FilterTupel[number];
 
 export const TodoScreen = () => {
-  const { todos, listTodos } = useTodos();
+  const { todos, listStatus, listTodos } = useListTodos();
   const [filter, setFilter] = useState<Filter>("ALL");
 
   const filteredTodos = useMemo(() => {
@@ -33,7 +33,7 @@ export const TodoScreen = () => {
     <VStack w='full' spacing={10} paddingX={48} paddingY={16}>
       <TodoInput />
       <TodoFilter filter={filter} setFilter={setFilter} />
-      <TodoList todos={filteredTodos} />
+      <TodoList todos={filteredTodos} isLoading={listStatus.isLoading} />
     </VStack>
   );
 };

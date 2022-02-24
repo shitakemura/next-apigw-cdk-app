@@ -1,21 +1,16 @@
 import { Spinner, VStack } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { Todo } from "../../../../shared/models";
-import { useTodos } from "../../../hooks/useTodosContext";
+import { useTodos } from "../../../hooks/useTodos";
 import { TodoItem } from "../TodoItem";
 
 type TodoListProps = {
   todos: Todo[];
+  isLoading: boolean;
 };
 
-export const TodoList = ({ todos }: TodoListProps) => {
-  const { isLoading } = useTodos();
-  const isGetLoading = useMemo(
-    () => isLoading && isLoading.type === "GET" && isLoading.value === true,
-    [isLoading]
-  );
-
-  if (isGetLoading) {
+export const TodoList = ({ todos, isLoading }: TodoListProps) => {
+  if (isLoading) {
     return (
       <VStack p={16}>
         <Spinner />

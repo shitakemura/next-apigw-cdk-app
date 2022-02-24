@@ -1,6 +1,6 @@
 import { Spinner, Stack, VStack } from "@chakra-ui/react";
 import { useAccessToken } from "../../hooks/useAccessToken";
-import { TodosProvider } from "../../hooks/useTodosContext";
+import { TodosProvider } from "../../hooks/useTodos";
 import { Header } from "../Header";
 import { Login } from "../Login";
 import { TodoScreen } from "../Todo/TodoScreen";
