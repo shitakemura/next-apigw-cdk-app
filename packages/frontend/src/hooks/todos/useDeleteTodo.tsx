@@ -7,7 +7,7 @@ import { useTodos } from "../useTodos";
 export const useDeleteTodo = () => {
   const { todos, setTodos } = useTodos();
   const { accessToken } = useAccessToken();
-  const { isLoading, errorMessage, deleteApi, clearErrorMessage } = useApi();
+  const { isLoading, error, deleteApi, clearError } = useApi();
 
   const deleteTodo = useCallback(
     async (id: string) => {
@@ -29,8 +29,8 @@ export const useDeleteTodo = () => {
 
   return {
     deleteStatus: { isLoading },
-    errorMessage,
+    error,
     deleteTodo,
-    clearErrorMessage,
+    clearError,
   };
 };

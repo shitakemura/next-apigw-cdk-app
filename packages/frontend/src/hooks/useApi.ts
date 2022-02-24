@@ -2,8 +2,8 @@ import { useCallback, useState } from "react";
 
 export const useApi = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const clearErrorMessage = useCallback(() => setErrorMessage(null), []);
+  const [error, setError] = useState<Error | null>(null);
+  const clearError = useCallback(() => setError(null), []);
 
   const getApi = useCallback(async <T>(url: string, accessToken: string) => {
     try {
@@ -20,9 +20,9 @@ export const useApi = () => {
       return data as T;
     } catch (error: any) {
       if (error instanceof Error) {
-        setErrorMessage(error.message);
+        setError(error);
       } else {
-        setErrorMessage(`GET API error: ${url}`);
+        setError(new Error(`GET API error: ${url}`));
       }
     } finally {
       setIsLoading(false);
@@ -55,9 +55,9 @@ export const useApi = () => {
         return data as T;
       } catch (error) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setError(error);
         } else {
-          setErrorMessage(`POST API error: ${url}`);
+          setError(new Error(`POST API error: ${url}`));
         }
       } finally {
         setIsLoading(false);
@@ -97,9 +97,9 @@ export const useApi = () => {
         return data as T;
       } catch (error) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setError(error);
         } else {
-          setErrorMessage(`PUT API error: ${url}`);
+          setError(new Error(`PUT API error: ${url}`));
         }
       } finally {
         setIsLoading(false);
@@ -133,9 +133,9 @@ export const useApi = () => {
         return data as T;
       } catch (error) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
+          setError(error);
         } else {
-          setErrorMessage(`DELETE API error: ${url}`);
+          setError(new Error(`DELETE API error: ${url}`));
         }
       } finally {
         setIsLoading(false);
@@ -146,11 +146,11 @@ export const useApi = () => {
 
   return {
     isLoading,
-    errorMessage,
+    error,
     getApi,
     postApi,
     putApi,
     deleteApi,
-    clearErrorMessage,
+    clearError,
   };
 };

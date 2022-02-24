@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Todo } from "../../../shared/models";
+import { Todo } from "../../../../shared/models";
 import { BASE_URL } from "../constants";
 import { useAccessToken } from "../useAccessToken";
 import { useApi } from "../useApi";
@@ -8,7 +8,7 @@ import { useTodos } from "../useTodos";
 export const useCreateTodo = () => {
   const { todos, setTodos } = useTodos();
   const { accessToken } = useAccessToken();
-  const { isLoading, errorMessage, postApi, clearErrorMessage } = useApi();
+  const { isLoading, error, postApi, clearError } = useApi();
 
   const createTodo = useCallback(
     async (body: { title: string }) => {
@@ -26,8 +26,8 @@ export const useCreateTodo = () => {
 
   return {
     createStatus: { isLoading },
-    errorMessage,
+    error,
     createTodo,
-    clearErrorMessage,
+    clearError,
   };
 };

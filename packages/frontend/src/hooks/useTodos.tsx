@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
-import { Todo } from "../../shared/models";
+import { Todo } from "../../../shared/models";
 
 type TodosContextType = {
   todos: Todo[];

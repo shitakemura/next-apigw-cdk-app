@@ -3,12 +3,12 @@ import { useAccessToken } from "../useAccessToken";
 import { useApi } from "../useApi";
 import { useCallback } from "react";
 import { BASE_URL } from "../constants";
-import { Todo } from "../../../shared/models";
+import { Todo } from "../../../../shared/models";
 
 export const useListTodos = () => {
   const { todos, setTodos } = useTodos();
   const { accessToken } = useAccessToken();
-  const { isLoading, errorMessage, getApi, clearErrorMessage } = useApi();
+  const { isLoading, error, getApi, clearError } = useApi();
 
   const listTodos = useCallback(async () => {
     if (!accessToken) return;
@@ -23,8 +23,8 @@ export const useListTodos = () => {
   return {
     todos,
     listStatus: { isLoading },
-    errorMessage,
+    error,
     listTodos,
-    clearErrorMessage,
+    clearError,
   };
 };
