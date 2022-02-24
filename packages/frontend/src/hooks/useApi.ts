@@ -109,7 +109,7 @@ export const useApi = () => {
   );
 
   const deleteApi = useCallback(
-    async <T>(id: string, url: string, accessToken: string | null) => {
+    async <T>(url: string, accessToken: string | null) => {
       try {
         if (!accessToken) {
           throw new Error("no access token");

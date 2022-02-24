@@ -13,7 +13,6 @@ export const useDeleteTodo = () => {
     async (id: string) => {
       const url = BASE_URL + `/todos/${id}`;
       const deletedTodo = (await deleteApi<{ userId: string; id: string }>(
-        id,
         url,
         accessToken
       )) as { userId: string; id: string };
