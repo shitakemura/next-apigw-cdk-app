@@ -1,6 +1,6 @@
 import { Spinner, VStack } from "@chakra-ui/react";
 import { useMemo } from "react";
-import { Todo } from "../../../../shared/models";
+import { Todo } from "../../../../../shared/models";
 import { useTodos } from "../../../hooks/useTodos";
 import { TodoItem } from "../TodoItem";
 

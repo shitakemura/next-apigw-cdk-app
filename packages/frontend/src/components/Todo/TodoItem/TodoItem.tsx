@@ -1,5 +1,5 @@
 import { Checkbox, HStack, Spinner, Text } from "@chakra-ui/react";
-import { Todo } from "../../../../shared/models";
+import { Todo } from "../../../../../shared/models";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useUpdateTodo } from "../../../hooks/todos/useUpdateTodo";
 import { useDeleteTodo } from "../../../hooks/todos/useDeleteTodo";
