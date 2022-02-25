@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodoList 初期表示、ローディング中 1`] = `
+<DocumentFragment>
+  <div
+    class="chakra-stack css-t9h4d1"
+  >
+    <div
+      class="chakra-spinner css-1y7joxr"
+    >
+      <span
+        class="css-f8n5zr"
+      >
+        Loading...
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`TodoList 初期表示、ローディング後 1`] = `
+<DocumentFragment>
+  <ul
+    class="css-1jwzkh"
+    role="list"
+  >
+    <li
+      class="css-o5g2qp"
+    >
+      <div
+        class="chakra-stack css-wlyavx"
+      >
+        <div
+          class="chakra-stack css-16awuyr"
+        >
+          <label
+            class="chakra-checkbox css-1uiwwan"
+          >
+            <input
+              class="chakra-checkbox__input"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="checkbox"
+              value=""
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-checkbox__control css-dnty2r"
+            />
+          </label>
+          <p
+            class="chakra-text css-1xu3tth"
+          >
+            First Todo
+          </p>
+        </div>
+        <button
+          aria-label="delete-icon"
+          class="chakra-button css-1xh58gk"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="chakra-icon css-onkibi"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="currentColor"
+            >
+              <path
+                d="M19.452 7.5H4.547a.5.5 0 00-.5.545l1.287 14.136A2 2 0 007.326 24h9.347a2 2 0 001.992-1.819L19.95 8.045a.5.5 0 00-.129-.382.5.5 0 00-.369-.163zm-9.2 13a.75.75 0 01-1.5 0v-9a.75.75 0 011.5 0zm5 0a.75.75 0 01-1.5 0v-9a.75.75 0 011.5 0zM22 4h-4.75a.25.25 0 01-.25-.25V2.5A2.5 2.5 0 0014.5 0h-5A2.5 2.5 0 007 2.5v1.25a.25.25 0 01-.25.25H2a1 1 0 000 2h20a1 1 0 000-2zM9 3.75V2.5a.5.5 0 01.5-.5h5a.5.5 0 01.5.5v1.25a.25.25 0 01-.25.25h-5.5A.25.25 0 019 3.75z"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </li>
+    <li
+      class="css-o5g2qp"
+    >
+      <div
+        class="chakra-stack css-wlyavx"
+      >
+        <div
+          class="chakra-stack css-16awuyr"
+        >
+          <label
+            class="chakra-checkbox css-1uiwwan"
+          >
+            <input
+              class="chakra-checkbox__input"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="checkbox"
+              value=""
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-checkbox__control css-dnty2r"
+            />
+          </label>
+          <p
+            class="chakra-text css-1xu3tth"
+          >
+            Second Todo
+          </p>
+        </div>
+        <button
+          aria-label="delete-icon"
+          class="chakra-button css-1xh58gk"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="chakra-icon css-onkibi"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="currentColor"
+            >
+              <path
+                d="M19.452 7.5H4.547a.5.5 0 00-.5.545l1.287 14.136A2 2 0 007.326 24h9.347a2 2 0 001.992-1.819L19.95 8.045a.5.5 0 00-.129-.382.5.5 0 00-.369-.163zm-9.2 13a.75.75 0 01-1.5 0v-9a.75.75 0 011.5 0zm5 0a.75.75 0 01-1.5 0v-9a.75.75 0 011.5 0zM22 4h-4.75a.25.25 0 01-.25-.25V2.5A2.5 2.5 0 0014.5 0h-5A2.5 2.5 0 007 2.5v1.25a.25.25 0 01-.25.25H2a1 1 0 000 2h20a1 1 0 000-2zM9 3.75V2.5a.5.5 0 01.5-.5h5a.5.5 0 01.5.5v1.25a.25.25 0 01-.25.25h-5.5A.25.25 0 019 3.75z"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </li>
+    <li
+      class="css-o5g2qp"
+    >
+      <div
+        class="chakra-stack css-wlyavx"
+      >
+        <div
+          class="chakra-stack css-16awuyr"
+        >
+          <label
+            class="chakra-checkbox css-1uiwwan"
+            data-checked=""
+          >
+            <input
+              checked=""
+              class="chakra-checkbox__input"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="checkbox"
+              value=""
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-checkbox__control css-dnty2r"
+              data-checked=""
+            >
+              <div
+                style="display: flex; align-items: center; justify-content: center; height: 100%; transform: none;"
+              >
+                <svg
+                  class="css-o8vbdw"
+                  style="fill: none; stroke-width: 2; stroke: currentColor; stroke-dasharray: 16; opacity: 1; stroke-dashoffset: 0;"
+                  viewBox="0 0 12 10"
+                >
+                  <polyline
+                    points="1.5 6 4.5 9 10.5 1"
+                  />
+                </svg>
+              </div>
+            </span>
+          </label>
+          <p
+            class="chakra-text css-1sb2pv9"
+          >
+            Thire Todo
+          </p>
+        </div>
+        <button
+          aria-label="delete-icon"
+          class="chakra-button css-1xh58gk"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="chakra-icon css-onkibi"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="currentColor"
+            >
+              <path
+                d="M19.452 7.5H4.547a.5.5 0 00-.5.545l1.287 14.136A2 2 0 007.326 24h9.347a2 2 0 001.992-1.819L19.95 8.045a.5.5 0 00-.129-.382.5.5 0 00-.369-.163zm-9.2 13a.75.75 0 01-1.5 0v-9a.75.75 0 011.5 0zm5 0a.75.75 0 01-1.5 0v-9a.75.75 0 011.5 0zM22 4h-4.75a.25.25 0 01-.25-.25V2.5A2.5 2.5 0 0014.5 0h-5A2.5 2.5 0 007 2.5v1.25a.25.25 0 01-.25.25H2a1 1 0 000 2h20a1 1 0 000-2zM9 3.75V2.5a.5.5 0 01.5-.5h5a.5.5 0 01.5.5v1.25a.25.25 0 01-.25.25h-5.5A.25.25 0 019 3.75z"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+    </li>
+  </ul>
+</DocumentFragment>
+`;

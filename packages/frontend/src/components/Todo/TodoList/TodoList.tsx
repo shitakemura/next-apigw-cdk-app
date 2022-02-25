@@ -1,4 +1,4 @@
-import { Spinner, VStack } from "@chakra-ui/react";
+import { List, ListItem, Spinner, VStack } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { Todo } from "../../../../../shared/models";
 import { useTodos } from "../../../hooks/useTodos";
@@ -19,10 +19,12 @@ export const TodoList = ({ todos, isLoading }: TodoListProps) => {
   }
 
   return (
-    <VStack w='full' paddingX={8}>
+    <List w='full' paddingX={8}>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} />
+        <ListItem key={todo.id} paddingY={2}>
+          <TodoItem todo={todo} />
+        </ListItem>
       ))}
-    </VStack>
+    </List>
   );
 };
