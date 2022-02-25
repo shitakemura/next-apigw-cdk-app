@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodoInput 初期表示 1`] = `
+<DocumentFragment>
+  <div
+    class="chakra-stack css-cxk74f"
+  >
+    <input
+      class="chakra-input css-kggzbs"
+      value=""
+    />
+    <button
+      class="chakra-button css-1bu2fo6"
+      disabled=""
+      type="button"
+    >
+      Add Todo
+    </button>
+  </div>
+</DocumentFragment>
+`;
