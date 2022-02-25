@@ -11,7 +11,6 @@ export const useListTodos = () => {
   const { isLoading, error, getApi, clearError } = useApi();
 
   const listTodos = useCallback(async () => {
-    if (!accessToken) return;
     const callListTodos = async () => {
       const url = BASE_URL + "/todos";
       const todos = (await getApi<Todo[]>(url, accessToken)) ?? [];

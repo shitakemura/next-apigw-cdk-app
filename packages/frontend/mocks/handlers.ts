@@ -1,13 +1,32 @@
-import { rest, RestRequest } from "msw";
+import { rest } from "msw";
 import { Todo } from "../../shared/models";
-
-const testUserId = "testUserId";
 
 let todos: Todo[] = [
   {
-    userId: "testUserId",
-    id: "fdajlkow",
+    userId: "testUser001",
+    id: "id001",
     title: "First Todo",
+    completed: false,
+    createdAt: 1645085807054,
+  },
+  {
+    userId: "testUser001",
+    id: "id002",
+    title: "Second Todo",
+    completed: false,
+    createdAt: 1645085807054,
+  },
+  {
+    userId: "testUser001",
+    id: "id003",
+    title: "Thire Todo",
+    completed: true,
+    createdAt: 1645085807054,
+  },
+  {
+    userId: "testUser002",
+    id: "id104",
+    title: "TestUser002 Todo",
     completed: false,
     createdAt: 1645085807054,
   },
@@ -19,7 +38,7 @@ export const handlers = [
     (_, res, ctx) => {
       return res(
         ctx.status(200),
-        ctx.json(todos.filter((todo) => todo.userId === testUserId))
+        ctx.json(todos.filter((todo) => todo.userId === "testUser001"))
       );
     }
   ),
