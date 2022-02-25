@@ -1,34 +1,49 @@
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useCallback, useEffect, useState } from "react";
 
-export const useAccessToken = () => {
+type AuthContextProps = {
+  accessToken: string | null;
+  isLoading: boolean;
+};
+
+const AuthContext = createContext({} as AuthContextProps);
+
+type AuthProviderProps = {
+  children: React.ReactNode;
+};
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const { getAccessTokenSilently } = useAuth0();
-  const clearErrorMessage = useCallback(() => setErrorMessage(null), []);
 
   useEffect(() => {
     const getAccessToken = async () => {
-      setIsLoading(true);
       try {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.NEXT_PUBLIC_AUTH0_API_AUDIENCE,
           scope: process.env.NEXT_PUBLIC_AUTH0_OPENID_CONNECT_SCOPE,
         });
         setAccessToken(accessToken);
+        setError(null);
       } catch (error: any) {
         if (error instanceof Error) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("get access token error");
+          setError(error);
         }
       } finally {
         setIsLoading(false);
       }
     };
+
     getAccessToken();
   }, [getAccessTokenSilently]);
 
-  return { accessToken, isLoading, errorMessage };
+  return (
+    <AuthContext.Provider value={{ accessToken, isLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
+
+export const useAuth = () => useContext(AuthContext);

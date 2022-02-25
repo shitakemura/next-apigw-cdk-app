@@ -1,12 +1,12 @@
 import { Spinner, Stack, VStack } from "@chakra-ui/react";
-import { useAccessToken } from "../../hooks/useAccessToken";
+import { useAuth } from "../../hooks/useAuth";
 import { TodosProvider } from "../../hooks/useTodos";
 import { Header } from "../Header";
 import { Login } from "../Login";
 import { TodoScreen } from "../Todo/TodoScreen";
 
 export const Home = () => {
-  const { accessToken, isLoading, errorMessage } = useAccessToken();
+  const { accessToken, isLoading } = useAuth();
 
   if (isLoading) {
     return (

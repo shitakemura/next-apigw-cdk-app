@@ -1,6 +1,7 @@
 import "../../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { AuthProvider } from "../hooks/useAuth";
 import { ChakraProvider } from "@chakra-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -11,9 +12,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       redirectUri={process.env.NEXT_PUBLIC_AUTH0_REDIERCT_URL ?? ""}
       audience={process.env.NEXT_PUBLIC_AUTH0_API_AUDIENCE}
       scope={process.env.NEXT_PUBLIC_AUTH0_SCOPE}>
-      <ChakraProvider>
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <AuthProvider>
+        <ChakraProvider>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </AuthProvider>
     </Auth0Provider>
   );
 }

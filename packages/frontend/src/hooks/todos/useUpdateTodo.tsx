@@ -1,13 +1,13 @@
 import { useCallback } from "react";
 import { Todo } from "../../../../shared/models";
 import { BASE_URL } from "../constants";
-import { useAccessToken } from "../useAccessToken";
+import { useAuth } from "../useAuth";
 import { useApi } from "../useApi";
 import { useTodos } from "../useTodos";
 
 export const useUpdateTodo = () => {
   const { todos, setTodos } = useTodos();
-  const { accessToken } = useAccessToken();
+  const { accessToken } = useAuth();
   const { isLoading, error, putApi, clearError } = useApi();
 
   const updateTodo = useCallback(

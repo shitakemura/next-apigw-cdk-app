@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import { BASE_URL } from "../constants";
-import { useAccessToken } from "../useAccessToken";
+import { useAuth } from "../useAuth";
 import { useApi } from "../useApi";
 import { useTodos } from "../useTodos";
 
 export const useDeleteTodo = () => {
   const { todos, setTodos } = useTodos();
-  const { accessToken } = useAccessToken();
+  const { accessToken } = useAuth();
   const { isLoading, error, deleteApi, clearError } = useApi();
 
   const deleteTodo = useCallback(
