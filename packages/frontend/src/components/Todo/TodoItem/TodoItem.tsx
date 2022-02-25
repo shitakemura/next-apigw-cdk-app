@@ -1,4 +1,4 @@
-import { Checkbox, HStack, Spinner, Text } from "@chakra-ui/react";
+import { Checkbox, HStack, IconButton, Spinner, Text } from "@chakra-ui/react";
 import { Todo } from "../../../../../shared/models";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useUpdateTodo } from "../../../hooks/todos/useUpdateTodo";
@@ -41,11 +41,14 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
           color='green.500'
         />
       ) : (
-        <DeleteIcon
+        <IconButton
+          aria-label='delete-icon'
           color='green.500'
+          p={4}
           boxSize={5}
           _hover={{ boxSize: 6 }}
           onClick={() => deleteTodo(todo.id)}
+          icon={<DeleteIcon />}
         />
       )}
     </HStack>
