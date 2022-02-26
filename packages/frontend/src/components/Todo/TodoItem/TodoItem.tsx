@@ -3,6 +3,7 @@ import { Todo } from "../../../../../shared/models";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useUpdateTodo } from "../../../hooks/todos/useUpdateTodo";
 import { useDeleteTodo } from "../../../hooks/todos/useDeleteTodo";
+import { useCallback } from "react";
 
 type TodoItemProps = {
   todo: Todo;
@@ -11,6 +12,10 @@ type TodoItemProps = {
 export const TodoItem = ({ todo }: TodoItemProps) => {
   const { updateTodo } = useUpdateTodo();
   const { deleteStatus, deleteTodo } = useDeleteTodo();
+
+  const handleOnDelete = useCallback(() => {
+    deleteTodo(todo.id);
+  }, [todo.id, deleteTodo]);
 
   return (
     <HStack
@@ -47,7 +52,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
           p={4}
           boxSize={5}
           _hover={{ boxSize: 6 }}
-          onClick={() => deleteTodo(todo.id)}
+          onClick={handleOnDelete}
           icon={<DeleteIcon />}
         />
       )}

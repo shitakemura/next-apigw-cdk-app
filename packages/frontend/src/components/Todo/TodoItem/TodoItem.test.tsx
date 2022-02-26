@@ -1,7 +1,10 @@
 import { cleanup, render, screen } from "@testing-library/react";
+import { act } from "@testing-library/react-hooks";
+import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { Todo } from "../../../../../shared/models";
+import { TodosProvider } from "../../../hooks/useTodos";
 import { TodoItem } from "./TodoItem";
 
 let todo: Todo = {
@@ -34,5 +37,15 @@ describe("TodoItem", () => {
     expect(screen.getByRole("checkbox")).toBeInTheDocument();
     expect(screen.getByText("test todo")).toBeInTheDocument();
     expect(screen.getByRole("button")).toBeInTheDocument();
+  });
+
+  test("削除ボタン", () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <TodosProvider>{children}</TodosProvider>
+    );
+    render(<TodoItem todo={todo} />, { wrapper });
+
+    const button = screen.getByRole("button");
+    act(() => userEvent.click(button));
   });
 });
