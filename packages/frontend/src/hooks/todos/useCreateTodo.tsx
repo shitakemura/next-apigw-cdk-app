@@ -1,33 +1,44 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Todo } from "../../../../shared/models";
 import { BASE_URL } from "../constants";
 import { useAuth } from "../useAuth";
-import { useApi } from "../useApi";
+import { postApi } from "../Api";
 import { useTodos } from "../useTodos";
 
 export const useCreateTodo = () => {
   const { todos, setTodos } = useTodos();
   const { accessToken } = useAuth();
-  const { isLoading, error, postApi, clearError } = useApi();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const createTodo = useCallback(
     async (body: { title: string }) => {
-      const url = BASE_URL + "/todos";
-      const createdTodo = (await postApi<Todo, { title: string }>(
-        url,
-        accessToken,
-        body
-      )) as Todo;
+      try {
+        setIsLoading(true);
+        const url = BASE_URL + "/todos";
+        const createdTodo = (await postApi<Todo, { title: string }>(
+          url,
+          accessToken!,
+          body
+        )) as Todo;
 
-      setTodos([...todos, createdTodo]);
+        setTodos([...todos, createdTodo]);
+      } catch (error: any) {
+        if (error instanceof Error) {
+          setError(error);
+        } else {
+          setError(new Error(`Delete deleteTodo API error`));
+        }
+      } finally {
+        setIsLoading(false);
+      }
     },
-    [todos, accessToken, postApi, setTodos]
+    [todos, accessToken, setTodos]
   );
 
   return {
     createStatus: { isLoading },
     error,
     createTodo,
-    clearError,
   };
 };
