@@ -42,4 +42,13 @@ export const handlers = [
       );
     }
   ),
+  rest.post(
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT_URL}/todos`,
+    (_, res, ctx) => {
+      return res(
+        ctx.status(201),
+        ctx.json({ id: "id0001", title: "test todo title", completed: false })
+      );
+    }
+  ),
 ];
