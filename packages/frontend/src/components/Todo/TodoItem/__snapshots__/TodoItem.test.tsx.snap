@@ -29,7 +29,7 @@ exports[`TodoItem 初期表示 1`] = `
           >
             <svg
               class="css-o8vbdw"
-              style="fill: none; stroke-width: 2; stroke: currentColor; stroke-dasharray: 16; opacity: 1; stroke-dashoffset: 0; stroke-dashoffset: 0;"
+              style="fill: none; stroke-width: 2; stroke: currentColor; stroke-dasharray: 16; opacity: 1; stroke-dashoffset: 0;"
               viewBox="0 0 12 10"
             >
               <polyline

@@ -1,5 +1,6 @@
 import { rest } from "msw";
 import { Todo } from "../../shared/models";
+import { v4 as uuid } from "uuid";
 
 let todos: Todo[] = [
   {
@@ -47,8 +48,23 @@ export const handlers = [
     (_, res, ctx) => {
       return res(
         ctx.status(201),
-        ctx.json({ id: "id0001", title: "test todo title", completed: false })
+        ctx.json({ id: uuid(), title: "test todo title", completed: false })
       );
+    }
+  ),
+  rest.put(
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT_URL}/todos/:id`,
+    (req, res, ctx) => {
+      const { id } = req.params;
+      const body = req.body as { completed: boolean };
+      const todo = todos.find((todo) => todo.id === id)!;
+      return res(ctx.status(200), ctx.json({ ...todo, ...body }));
+    }
+  ),
+  rest.delete(
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT_URL}/todos/:id`,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json({}));
     }
   ),
 ];

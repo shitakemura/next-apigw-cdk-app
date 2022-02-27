@@ -1,25 +1,25 @@
 import React from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
-import { useCreateTodo } from "./useCreateTodo";
-import { server } from "../../../mocks/server";
+import { useUpdateTodo } from "./useUpdateTodo";
 import { TodosProvider } from "../useTodos";
+import { server } from "../../../mocks/server";
 import "whatwg-fetch";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-describe("useCreateTodo", () => {
-  test("Todoを登録できること", async () => {
+describe("useUpdateTodo", () => {
+  test("Todoを更新できること", async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => {
       return <TodosProvider>{children}</TodosProvider>;
     };
 
-    const { result } = renderHook(() => useCreateTodo(), { wrapper });
+    const { result } = renderHook(() => useUpdateTodo(), { wrapper });
 
-    await act(() => result.current.createTodo({ title: "test todo title" }));
+    await act(() => result.current.updateTodo("id001", { completed: true }));
 
-    expect(result.current.createStatus).toStrictEqual({ isLoading: false });
+    expect(result.current.updateStatus).toStrictEqual({ isLoading: false });
     expect(result.current.error).toBeNull();
   });
 });
