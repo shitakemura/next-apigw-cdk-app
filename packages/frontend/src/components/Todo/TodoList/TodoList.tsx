@@ -1,13 +1,11 @@
-import { List, ListItem, Spinner, VStack } from "@chakra-ui/react";
-import { useMemo } from "react";
-import { Todo } from "../../../../../shared/models";
-import { useTodos } from "../../../hooks/useTodos";
-import { TodoItem } from "../TodoItem";
+import { List, ListItem, Spinner, VStack } from "@chakra-ui/react"
+import { Todo } from "../../../../../shared/models"
+import { TodoItem } from "../TodoItem"
 
 type TodoListProps = {
-  todos: Todo[];
-  isLoading: boolean;
-};
+  todos: Todo[]
+  isLoading: boolean
+}
 
 export const TodoList = ({ todos, isLoading }: TodoListProps) => {
   if (isLoading) {
@@ -15,7 +13,7 @@ export const TodoList = ({ todos, isLoading }: TodoListProps) => {
       <VStack p={16}>
         <Spinner />
       </VStack>
-    );
+    )
   }
 
   return (
@@ -26,5 +24,5 @@ export const TodoList = ({ todos, isLoading }: TodoListProps) => {
         </ListItem>
       ))}
     </List>
-  );
-};
+  )
+}

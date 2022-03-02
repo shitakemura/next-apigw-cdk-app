@@ -1,7 +1,7 @@
 import React from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
 import { useUpdateTodo } from "./useUpdateTodo";
-import { TodosProvider } from "../useTodos";
+import { TodosProviderContainer } from "../useTodos";
 import { server } from "../../../mocks/server";
 import "whatwg-fetch";
 
@@ -12,7 +12,7 @@ afterAll(() => server.close());
 describe("useUpdateTodo", () => {
   test("Todoを更新できること", async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => {
-      return <TodosProvider>{children}</TodosProvider>;
+      return <TodosProviderContainer>{children}</TodosProviderContainer>;
     };
 
     const { result } = renderHook(() => useUpdateTodo(), { wrapper });

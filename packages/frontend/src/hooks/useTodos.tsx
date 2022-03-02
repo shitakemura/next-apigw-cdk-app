@@ -1,19 +1,32 @@
-import { createContext, PropsWithChildren, useContext, useState } from "react";
-import { Todo } from "../../../shared/models";
+import React, {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useState,
+} from "react"
+import { Todo } from "../../../shared/models"
 
-type TodosContextType = {
-  todos: Todo[];
-  setTodos: (todos: Todo[]) => void;
-};
+type TodosStateContextType = {
+  todos: Todo[]
+}
 
-const TodosContext = createContext({} as TodosContextType);
-export const TodosProvider = ({ children }: PropsWithChildren<{}>) => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+type TodosDispatchContextType = {
+  setTodos: (todos: Todo[]) => void
+}
+
+const TodosStateContext = createContext({} as TodosStateContextType)
+const TodosDispatchContext = createContext({} as TodosDispatchContextType)
+
+export const TodosProviderContainer = ({ children }: PropsWithChildren<{}>) => {
+  const [todos, setTodos] = useState<Todo[]>([])
   return (
-    <TodosContext.Provider value={{ todos, setTodos }}>
-      {children}
-    </TodosContext.Provider>
-  );
-};
+    <TodosStateContext.Provider value={{ todos }}>
+      <TodosDispatchContext.Provider value={{ setTodos }}>
+        {children}
+      </TodosDispatchContext.Provider>
+    </TodosStateContext.Provider>
+  )
+}
 
-export const useTodos = () => useContext(TodosContext);
+export const useTodosState = () => useContext(TodosStateContext)
+export const useTodosDispatch = () => useContext(TodosDispatchContext)

@@ -1,24 +1,25 @@
-import { useCallback, useState } from "react";
-import { BASE_URL } from "../constants";
-import { useAuth } from "../useAuth";
-import { deleteApi } from "../Api";
-import { useTodos } from "../useTodos";
+import { useCallback, useState } from "react"
+import { BASE_URL } from "../constants"
+import { useAuth } from "../useAuth"
+import { deleteApi } from "../Api"
+import { useTodosState, useTodosDispatch } from "../useTodos"
 
 export const useDeleteTodo = () => {
-  const { todos, setTodos } = useTodos();
-  const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const { todos } = useTodosState()
+  const { setTodos } = useTodosDispatch()
+  const { accessToken } = useAuth()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
 
   const deleteTodo = useCallback(
     async (id: string) => {
       try {
-        setIsLoading(true);
-        const url = BASE_URL + `/todos/${id}`;
+        setIsLoading(true)
+        const url = BASE_URL + `/todos/${id}`
         const deletedTodo = (await deleteApi<{ userId: string; id: string }>(
           url,
           accessToken!
-        )) as { userId: string; id: string };
+        )) as { userId: string; id: string }
 
         setTodos(
           todos.filter(
@@ -27,23 +28,23 @@ export const useDeleteTodo = () => {
                 todo.userId === deletedTodo.userId && todo.id === deletedTodo.id
               )
           )
-        );
+        )
       } catch (error: any) {
         if (error instanceof Error) {
-          setError(error);
+          setError(error)
         } else {
-          setError(new Error(`Delete deleteTodo API error`));
+          setError(new Error(`Delete deleteTodo API error`))
         }
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     },
     [todos, accessToken, setTodos]
-  );
+  )
 
   return {
     deleteStatus: { isLoading },
     error,
     deleteTodo,
-  };
-};
+  }
+}

@@ -1,26 +1,27 @@
-import { useCallback, useState } from "react";
-import { Todo } from "../../../../shared/models";
-import { BASE_URL } from "../constants";
-import { useAuth } from "../useAuth";
-import { putApi } from "../Api";
-import { useTodos } from "../useTodos";
+import { useCallback, useState } from "react"
+import { Todo } from "../../../../shared/models"
+import { BASE_URL } from "../constants"
+import { useAuth } from "../useAuth"
+import { putApi } from "../Api"
+import { useTodosState, useTodosDispatch } from "../useTodos"
 
 export const useUpdateTodo = () => {
-  const { todos, setTodos } = useTodos();
-  const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const { todos } = useTodosState()
+  const { setTodos } = useTodosDispatch()
+  const { accessToken } = useAuth()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
 
   const updateTodo = useCallback(
     async (id: string, body: { completed: boolean }) => {
       try {
-        setIsLoading(true);
-        const url = BASE_URL + `/todos/${id}`;
+        setIsLoading(true)
+        const url = BASE_URL + `/todos/${id}`
         const updatedTodo = (await putApi<Todo, { completed: boolean }>(
           url,
           accessToken!,
           body
-        )) as Todo;
+        )) as Todo
 
         setTodos(
           todos.map((todo) => {
@@ -28,28 +29,28 @@ export const useUpdateTodo = () => {
               todo.userId === updatedTodo.userId &&
               todo.id === updatedTodo.id
             ) {
-              return updatedTodo;
+              return updatedTodo
             } else {
-              return todo;
+              return todo
             }
           })
-        );
+        )
       } catch (error: any) {
         if (error instanceof Error) {
-          setError(error);
+          setError(error)
         } else {
-          setError(new Error(`Delete deleteTodo API error`));
+          setError(new Error(`Delete deleteTodo API error`))
         }
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     },
     [todos, accessToken, setTodos]
-  );
+  )
 
   return {
     updateStatus: { isLoading },
     error,
     updateTodo,
-  };
-};
+  }
+}

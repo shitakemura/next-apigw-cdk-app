@@ -1,12 +1,12 @@
-import { Spinner, Stack, VStack } from "@chakra-ui/react";
-import { useAuth } from "../../hooks/useAuth";
-import { TodosProvider } from "../../hooks/useTodos";
-import { Header } from "../Header";
-import { Login } from "../Login";
-import { TodoScreen } from "../Todo/TodoScreen";
+import { Spinner, Stack, VStack } from "@chakra-ui/react"
+import { useAuth } from "../../hooks/useAuth"
+import { TodosProviderContainer } from "../../hooks/useTodos"
+import { Header } from "../Header"
+import { Login } from "../Login"
+import { TodoScreen } from "../Todo/TodoScreen"
 
 export const Home = () => {
-  const { accessToken, isLoading } = useAuth();
+  const { accessToken, isLoading } = useAuth()
 
   if (isLoading) {
     return (
@@ -18,19 +18,19 @@ export const Home = () => {
           size='xl'
         />
       </Stack>
-    );
+    )
   }
 
   if (!accessToken) {
-    return <Login />;
+    return <Login />
   } else {
     return (
       <VStack>
         <Header />
-        <TodosProvider>
+        <TodosProviderContainer>
           <TodoScreen />
-        </TodosProvider>
+        </TodosProviderContainer>
       </VStack>
-    );
+    )
   }
-};
+}
