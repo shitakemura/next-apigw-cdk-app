@@ -94,7 +94,7 @@ export class BackendApiStack extends cdk.Stack {
         ],
         allowOrigins: [
           "http://localhost:3000",
-          "https://dnnkr3krcvgjq.cloudfront.net",
+          "https://d1up73greyj7fg.cloudfront.net",
         ],
       },
     });
