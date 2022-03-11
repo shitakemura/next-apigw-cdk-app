@@ -1,11 +1,18 @@
-import { Button, HStack, Input } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { Button, HStack, Input, useToast } from "@chakra-ui/react";
+import { useCallback, useEffect, useState } from "react";
 import { useCreateTodo } from "../../../hooks/todos/useCreateTodo";
 
 export const TodoInput = () => {
   const [titleInput, setTitleInput] = useState("");
-  const { createStatus, createTodo } = useCreateTodo();
+  const { createStatus, error, createTodo } = useCreateTodo();
   const clearTitleInput = useCallback(() => setTitleInput(""), []);
+  const toast = useToast();
+
+  useEffect(() => {
+    if (error) {
+      toast({ title: error.message, status: "error", isClosable: true });
+    }
+  }, [error, toast]);
 
   return (
     <HStack spacing={6}>
